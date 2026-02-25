@@ -71,11 +71,8 @@ final class BookmarkManager {
     func requestAccess() async -> URL? {
         await MainActor.run {
             let panel = NSOpenPanel()
-            panel.title = NSLocalizedString("Select Applications Folder", comment: "")
-            panel.message = NSLocalizedString(
-                "FrameworkScanner needs access to the Applications folder to scan installed apps.",
-                comment: ""
-            )
+            panel.title = L("Select Applications Folder")
+            panel.message = L("FrameworkScanner needs access to the Applications folder to scan installed apps.")
             panel.canChooseFiles = false
             panel.canChooseDirectories = true
             panel.allowsMultipleSelection = false
