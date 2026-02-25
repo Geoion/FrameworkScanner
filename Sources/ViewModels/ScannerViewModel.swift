@@ -56,6 +56,8 @@ final class ScannerViewModel: ObservableObject {
     // MARK: - Actions
 
     func checkPermissionAndScan() {
+        guard allApps.isEmpty && !isScanning else { return }
+
         if let url = bookmarkManager.resolveBookmark() {
             if bookmarkManager.startAccessing(url) {
                 Task { await performScan(directories: [url, userApplicationsURL]) }
@@ -132,7 +134,7 @@ final class ScannerViewModel: ObservableObject {
         scanCurrent = 0
         scanTotal = 0
         scanCurrentIcon = nil
-        scanProgress = NSLocalizedString("Scanning applications...", comment: "")
+        scanProgress = L("Scanning applications...")
 
         let results = await scanner.scan(directories: directories) { [weak self] progress in
             Task { @MainActor in
