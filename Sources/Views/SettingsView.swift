@@ -7,7 +7,7 @@ struct SettingsView: View {
         Form {
             Section {
                 Picker(
-                    NSLocalizedString("Appearance", comment: ""),
+                    L("Appearance"),
                     selection: $appState.appearanceMode
                 ) {
                     ForEach(AppearanceMode.allCases, id: \.self) { mode in
@@ -16,38 +16,37 @@ struct SettingsView: View {
                 }
                 .pickerStyle(.segmented)
             } header: {
-                Text(NSLocalizedString("Appearance", comment: ""))
+                Text(L("Appearance"))
             }
 
             Section {
                 Picker(
-                    NSLocalizedString("Language", comment: ""),
+                    L("Language"),
                     selection: $appState.appLanguage
                 ) {
                     ForEach(AppLanguage.allCases, id: \.self) { lang in
                         Text(lang.displayName).tag(lang)
                     }
                 }
-                .pickerStyle(.radioGroup)
             } header: {
-                Text(NSLocalizedString("Language", comment: ""))
+                Text(L("Language"))
             }
 
             Section {
                 HStack {
-                    Text(NSLocalizedString("Version", comment: ""))
+                    Text(L("Version"))
                     Spacer()
                     Text("1.0.0")
                         .foregroundStyle(.secondary)
                 }
                 HStack {
-                    Text(NSLocalizedString("Author", comment: ""))
+                    Text(L("Author"))
                     Spacer()
                     Text("Geoion")
                         .foregroundStyle(.secondary)
                 }
                 HStack {
-                    Text(NSLocalizedString("Feedback", comment: ""))
+                    Text(L("Feedback"))
                     Spacer()
                     Button {
                         let subject = "FrameworkScanner Feedback"
@@ -62,7 +61,7 @@ struct SettingsView: View {
                     .buttonStyle(.link)
                 }
             } header: {
-                Text(NSLocalizedString("About", comment: ""))
+                Text(L("About"))
             }
         }
         .formStyle(.grouped)
@@ -72,9 +71,9 @@ struct SettingsView: View {
 
     private func localizedModeName(_ mode: AppearanceMode) -> String {
         switch mode {
-        case .system: return NSLocalizedString("System", comment: "")
-        case .light: return NSLocalizedString("Light", comment: "")
-        case .dark: return NSLocalizedString("Dark", comment: "")
+        case .system: return L("System")
+        case .light: return L("Light")
+        case .dark: return L("Dark")
         }
     }
 }
