@@ -2,6 +2,7 @@ import SwiftUI
 
 struct StatsBarView: View {
     @EnvironmentObject private var viewModel: ScannerViewModel
+    @EnvironmentObject private var appState: AppState
 
     var body: some View {
         let stats = viewModel.stats
@@ -9,7 +10,7 @@ struct StatsBarView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
                 StatBadge(
-                    label: NSLocalizedString("Total", comment: ""),
+                    label: L("Total"),
                     value: "\(stats.total)",
                     color: .primary
                 )
@@ -25,7 +26,7 @@ struct StatsBarView: View {
 
                 if stats.electronTotalSize > 0 {
                     StatBadge(
-                        label: NSLocalizedString("Electron Disk", comment: ""),
+                        label: L("Electron Disk"),
                         value: ByteCountFormatter.string(
                             fromByteCount: stats.electronTotalSize,
                             countStyle: .file
