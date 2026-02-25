@@ -1,0 +1,59 @@
+/* Toolbar */
+"Scan" = "スキャン";
+
+/* Permission */
+"Permission Required" = "権限が必要です";
+"Grant Access" = "アクセスを許可";
+"Cancel" = "キャンセル";
+"Access Required" = "アクセスが必要です";
+"FrameworkScanner needs access to the Applications folder to scan installed apps. Please grant access to continue." = "FrameworkScanner はインストール済みアプリをスキャンするために、アプリケーションフォルダへのアクセスが必要です。続行するにはアクセスを許可してください。";
+"FrameworkScanner needs access to the Applications folder to scan and identify frameworks used by your installed apps." = "FrameworkScanner はインストール済みアプリの開発フレームワークをスキャン・識別するために、アプリケーションフォルダへのアクセスが必要です。";
+"Select Applications Folder" = "アプリケーションフォルダを選択";
+"FrameworkScanner needs access to the Applications folder to scan installed apps." = "FrameworkScanner はアプリケーションフォルダへのアクセスが必要です。";
+
+/* Scanning */
+"Scanning applications..." = "アプリをスキャン中...";
+"Preparing scan..." = "スキャン準備中...";
+
+/* Empty State */
+"No Applications Found" = "アプリが見つかりません";
+"Try scanning again or grant access to a different directory." = "再スキャンするか、別のディレクトリへのアクセスを許可してください。";
+"Scan Again" = "再スキャン";
+
+/* Filter */
+"Search apps..." = "アプリを検索...";
+"All Frameworks" = "すべてのフレームワーク";
+"All" = "すべて";
+"selected" = "件選択";
+
+/* Sort */
+"Name" = "名前";
+"Size" = "サイズ";
+"Date" = "日付";
+"Framework" = "フレームワーク";
+
+/* Table Header */
+"Application" = "アプリケーション";
+"Size / Date" = "サイズ / 日付";
+"Arch" = "アーキテクチャ";
+"The development framework detected inside the app bundle (e.g. Electron, SwiftUI, Qt). Electron apps also show Chromium and Node.js versions." = "アプリバンドル内で検出された開発フレームワーク（例：Electron、SwiftUI、Qt）。Electron アプリでは Chromium と Node.js のバージョンも表示されます。";
+"Total disk size of the .app bundle, and the file creation date (install time)." = ".app バンドルの合計ディスクサイズとファイル作成日（インストール日時）。";
+"CPU architecture: Apple Silicon (arm64), Intel (x86_64), or Universal (both)." = "CPU アーキテクチャ：Apple Silicon (arm64)、Intel (x86_64)、またはUniversal（両方）。";
+
+/* Stats */
+"Total" = "合計";
+"Electron Disk" = "Electron 使用量";
+
+/* Detail */
+"No embedded frameworks" = "埋め込みフレームワークなし";
+
+/* Settings */
+"Appearance" = "外観";
+"System" = "システム";
+"Light" = "ライト";
+"Dark" = "ダーク";
+"Language" = "言語";
+"About" = "情報";
+"Version" = "バージョン";
+"Author" = "作者";
+"Feedback" = "フィードバック";

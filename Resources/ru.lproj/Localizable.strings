@@ -1,0 +1,59 @@
+/* Toolbar */
+"Scan" = "Сканировать";
+
+/* Permission */
+"Permission Required" = "Требуется разрешение";
+"Grant Access" = "Предоставить доступ";
+"Cancel" = "Отмена";
+"Access Required" = "Требуется доступ";
+"FrameworkScanner needs access to the Applications folder to scan installed apps. Please grant access to continue." = "FrameworkScanner требуется доступ к папке «Программы» для сканирования установленных приложений. Предоставьте доступ для продолжения.";
+"FrameworkScanner needs access to the Applications folder to scan and identify frameworks used by your installed apps." = "FrameworkScanner требуется доступ к папке «Программы» для сканирования и определения фреймворков, используемых вашими приложениями.";
+"Select Applications Folder" = "Выберите папку «Программы»";
+"FrameworkScanner needs access to the Applications folder to scan installed apps." = "FrameworkScanner требуется доступ к папке «Программы».";
+
+/* Scanning */
+"Scanning applications..." = "Сканирование приложений...";
+"Preparing scan..." = "Подготовка к сканированию...";
+
+/* Empty State */
+"No Applications Found" = "Приложения не найдены";
+"Try scanning again or grant access to a different directory." = "Попробуйте сканировать снова или предоставьте доступ к другой директории.";
+"Scan Again" = "Сканировать снова";
+
+/* Filter */
+"Search apps..." = "Поиск приложений...";
+"All Frameworks" = "Все фреймворки";
+"All" = "Все";
+"selected" = "выбрано";
+
+/* Sort */
+"Name" = "Имя";
+"Size" = "Размер";
+"Date" = "Дата";
+"Framework" = "Фреймворк";
+
+/* Table Header */
+"Application" = "Приложение";
+"Size / Date" = "Размер / Дата";
+"Arch" = "Архитектура";
+"The development framework detected inside the app bundle (e.g. Electron, SwiftUI, Qt). Electron apps also show Chromium and Node.js versions." = "Фреймворк разработки, обнаруженный в пакете приложения (например, Electron, SwiftUI, Qt). Для Electron-приложений также отображаются версии Chromium и Node.js.";
+"Total disk size of the .app bundle, and the file creation date (install time)." = "Общий размер пакета .app на диске и дата создания файла (дата установки).";
+"CPU architecture: Apple Silicon (arm64), Intel (x86_64), or Universal (both)." = "Архитектура процессора: Apple Silicon (arm64), Intel (x86_64) или Universal (обе).";
+
+/* Stats */
+"Total" = "Всего";
+"Electron Disk" = "Electron на диске";
+
+/* Detail */
+"No embedded frameworks" = "Нет встроенных фреймворков";
+
+/* Settings */
+"Appearance" = "Оформление";
+"System" = "Системная";
+"Light" = "Светлая";
+"Dark" = "Тёмная";
+"Language" = "Язык";
+"About" = "О приложении";
+"Version" = "Версия";
+"Author" = "Автор";
+"Feedback" = "Обратная связь";

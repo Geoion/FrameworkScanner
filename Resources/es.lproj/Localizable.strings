@@ -1,0 +1,59 @@
+/* Toolbar */
+"Scan" = "Escanear";
+
+/* Permission */
+"Permission Required" = "Permiso requerido";
+"Grant Access" = "Conceder acceso";
+"Cancel" = "Cancelar";
+"Access Required" = "Acceso requerido";
+"FrameworkScanner needs access to the Applications folder to scan installed apps. Please grant access to continue." = "FrameworkScanner necesita acceso a la carpeta Aplicaciones para escanear las apps instaladas. Por favor, conceda acceso para continuar.";
+"FrameworkScanner needs access to the Applications folder to scan and identify frameworks used by your installed apps." = "FrameworkScanner necesita acceso a la carpeta Aplicaciones para escanear e identificar los frameworks utilizados por sus apps instaladas.";
+"Select Applications Folder" = "Seleccionar carpeta Aplicaciones";
+"FrameworkScanner needs access to the Applications folder to scan installed apps." = "FrameworkScanner necesita acceso a la carpeta Aplicaciones.";
+
+/* Scanning */
+"Scanning applications..." = "Escaneando aplicaciones...";
+"Preparing scan..." = "Preparando escaneo...";
+
+/* Empty State */
+"No Applications Found" = "No se encontraron aplicaciones";
+"Try scanning again or grant access to a different directory." = "Intente escanear de nuevo o conceda acceso a otro directorio.";
+"Scan Again" = "Escanear de nuevo";
+
+/* Filter */
+"Search apps..." = "Buscar apps...";
+"All Frameworks" = "Todos los frameworks";
+"All" = "Todos";
+"selected" = "seleccionados";
+
+/* Sort */
+"Name" = "Nombre";
+"Size" = "Tamaño";
+"Date" = "Fecha";
+"Framework" = "Framework";
+
+/* Table Header */
+"Application" = "Aplicación";
+"Size / Date" = "Tamaño / Fecha";
+"Arch" = "Arquitectura";
+"The development framework detected inside the app bundle (e.g. Electron, SwiftUI, Qt). Electron apps also show Chromium and Node.js versions." = "El framework de desarrollo detectado dentro del paquete de la app (ej. Electron, SwiftUI, Qt). Las apps Electron también muestran versiones de Chromium y Node.js.";
+"Total disk size of the .app bundle, and the file creation date (install time)." = "Tamaño total del paquete .app en disco y fecha de creación del archivo (fecha de instalación).";
+"CPU architecture: Apple Silicon (arm64), Intel (x86_64), or Universal (both)." = "Arquitectura de CPU: Apple Silicon (arm64), Intel (x86_64) o Universal (ambas).";
+
+/* Stats */
+"Total" = "Total";
+"Electron Disk" = "Disco Electron";
+
+/* Detail */
+"No embedded frameworks" = "Sin frameworks integrados";
+
+/* Settings */
+"Appearance" = "Apariencia";
+"System" = "Sistema";
+"Light" = "Claro";
+"Dark" = "Oscuro";
+"Language" = "Idioma";
+"About" = "Acerca de";
+"Version" = "Versión";
+"Author" = "Autor";
+"Feedback" = "Comentarios";

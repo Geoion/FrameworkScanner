@@ -1,0 +1,59 @@
+/* Toolbar */
+"Scan" = "스캔";
+
+/* Permission */
+"Permission Required" = "권한 필요";
+"Grant Access" = "접근 허용";
+"Cancel" = "취소";
+"Access Required" = "접근 권한 필요";
+"FrameworkScanner needs access to the Applications folder to scan installed apps. Please grant access to continue." = "FrameworkScanner가 설치된 앱을 스캔하려면 응용 프로그램 폴더에 대한 접근 권한이 필요합니다. 계속하려면 접근을 허용해 주세요.";
+"FrameworkScanner needs access to the Applications folder to scan and identify frameworks used by your installed apps." = "FrameworkScanner가 설치된 앱의 개발 프레임워크를 스캔하고 식별하려면 응용 프로그램 폴더에 대한 접근 권한이 필요합니다.";
+"Select Applications Folder" = "응용 프로그램 폴더 선택";
+"FrameworkScanner needs access to the Applications folder to scan installed apps." = "FrameworkScanner는 응용 프로그램 폴더에 대한 접근 권한이 필요합니다.";
+
+/* Scanning */
+"Scanning applications..." = "앱 스캔 중...";
+"Preparing scan..." = "스캔 준비 중...";
+
+/* Empty State */
+"No Applications Found" = "앱을 찾을 수 없습니다";
+"Try scanning again or grant access to a different directory." = "다시 스캔하거나 다른 디렉토리에 대한 접근을 허용해 주세요.";
+"Scan Again" = "다시 스캔";
+
+/* Filter */
+"Search apps..." = "앱 검색...";
+"All Frameworks" = "모든 프레임워크";
+"All" = "전체";
+"selected" = "개 선택됨";
+
+/* Sort */
+"Name" = "이름";
+"Size" = "크기";
+"Date" = "날짜";
+"Framework" = "프레임워크";
+
+/* Table Header */
+"Application" = "애플리케이션";
+"Size / Date" = "크기 / 날짜";
+"Arch" = "아키텍처";
+"The development framework detected inside the app bundle (e.g. Electron, SwiftUI, Qt). Electron apps also show Chromium and Node.js versions." = "앱 번들 내에서 감지된 개발 프레임워크(예: Electron, SwiftUI, Qt). Electron 앱은 Chromium 및 Node.js 버전도 표시됩니다.";
+"Total disk size of the .app bundle, and the file creation date (install time)." = ".app 번들의 총 디스크 크기 및 파일 생성 날짜(설치 시간).";
+"CPU architecture: Apple Silicon (arm64), Intel (x86_64), or Universal (both)." = "CPU 아키텍처: Apple Silicon (arm64), Intel (x86_64) 또는 Universal (모두).";
+
+/* Stats */
+"Total" = "전체";
+"Electron Disk" = "Electron 디스크";
+
+/* Detail */
+"No embedded frameworks" = "내장 프레임워크 없음";
+
+/* Settings */
+"Appearance" = "외관";
+"System" = "시스템";
+"Light" = "라이트";
+"Dark" = "다크";
+"Language" = "언어";
+"About" = "정보";
+"Version" = "버전";
+"Author" = "작성자";
+"Feedback" = "피드백";
