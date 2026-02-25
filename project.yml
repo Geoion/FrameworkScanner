@@ -1,0 +1,32 @@
+name: FrameworkScanner
+options:
+  bundleIdPrefix: com.eskiyin
+  deploymentTarget:
+    macOS: "13.0"
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "13.0"
+    DEVELOPMENT_TEAM: ""
+targets:
+  FrameworkScanner:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources
+    resources:
+      - path: Resources/Assets.xcassets
+      - path: Resources/en.lproj
+      - path: Resources/zh-Hans.lproj
+    info:
+      path: Resources/Info.plist
+    entitlements:
+      path: Resources/FrameworkScanner.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.eskiyin.FrameworkScanner
+        PRODUCT_NAME: FrameworkScanner
+        INFOPLIST_FILE: Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Resources/FrameworkScanner.entitlements
+        ENABLE_HARDENED_RUNTIME: true
