@@ -26,10 +26,7 @@ struct ContentView: View {
                 Button {
                     viewModel.rescan()
                 } label: {
-                    Label(
-                        NSLocalizedString("Scan", comment: ""),
-                        systemImage: "arrow.clockwise"
-                    )
+                    Label(L("Scan"), systemImage: "arrow.clockwise")
                 }
                 .disabled(viewModel.isScanning)
             }
@@ -38,18 +35,15 @@ struct ContentView: View {
             viewModel.checkPermissionAndScan()
         }
         .alert(
-            NSLocalizedString("Permission Required", comment: ""),
+            L("Permission Required"),
             isPresented: $viewModel.permissionError
         ) {
-            Button(NSLocalizedString("Grant Access", comment: "")) {
+            Button(L("Grant Access")) {
                 viewModel.requestPermission()
             }
-            Button(NSLocalizedString("Cancel", comment: ""), role: .cancel) {}
+            Button(L("Cancel"), role: .cancel) {}
         } message: {
-            Text(NSLocalizedString(
-                "FrameworkScanner needs access to the Applications folder to scan installed apps. Please grant access to continue.",
-                comment: ""
-            ))
+            Text(L("FrameworkScanner needs access to the Applications folder to scan installed apps. Please grant access to continue."))
         }
     }
 }
@@ -66,26 +60,20 @@ struct PermissionRequestView: View {
                 .font(.system(size: 64))
                 .foregroundStyle(.secondary)
 
-            Text(NSLocalizedString("Access Required", comment: ""))
+            Text(L("Access Required"))
                 .font(.title2)
                 .fontWeight(.semibold)
 
-            Text(NSLocalizedString(
-                "FrameworkScanner needs access to the Applications folder to scan and identify frameworks used by your installed apps.",
-                comment: ""
-            ))
-            .multilineTextAlignment(.center)
-            .foregroundStyle(.secondary)
-            .frame(maxWidth: 400)
+            Text(L("FrameworkScanner needs access to the Applications folder to scan and identify frameworks used by your installed apps."))
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: 400)
 
             Button {
                 viewModel.requestPermission()
             } label: {
-                Label(
-                    NSLocalizedString("Grant Access", comment: ""),
-                    systemImage: "folder"
-                )
-                .padding(.horizontal, 8)
+                Label(L("Grant Access"), systemImage: "folder")
+                    .padding(.horizontal, 8)
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
@@ -106,15 +94,23 @@ struct ScanningView: View {
             Spacer()
 
             if let icon = viewModel.scanCurrentIcon {
-                Image(nsImage: icon)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 64, height: 64)
-                    .cornerRadius(14)
-                    .shadow(color: .black.opacity(0.15), radius: 8, y: 4)
-                    .id(viewModel.scanProgress)
-                    .transition(.scale.combined(with: .opacity))
-                    .animation(.easeInOut(duration: 0.2), value: viewModel.scanProgress)
+                VStack(spacing: 6) {
+                    Image(nsImage: icon)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 64, height: 64)
+                        .cornerRadius(14)
+                        .shadow(color: .black.opacity(0.15), radius: 8, y: 4)
+
+                    Text(viewModel.scanProgress)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .frame(maxWidth: 200)
+                }
+                .id(viewModel.scanProgress)
+                .transition(.scale.combined(with: .opacity))
+                .animation(.easeInOut(duration: 0.2), value: viewModel.scanProgress)
             } else {
                 Image(systemName: "app.dashed")
                     .font(.system(size: 48))
@@ -134,16 +130,10 @@ struct ScanningView: View {
                         .font(.title3)
                         .monospacedDigit()
                         .fontWeight(.medium)
-
-                    Text(viewModel.scanProgress)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .frame(maxWidth: 300)
                 }
             } else {
                 ProgressView()
-                Text(NSLocalizedString("Preparing scan...", comment: ""))
+                Text(L("Preparing scan..."))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -165,15 +155,12 @@ struct EmptyStateView: View {
             Image(systemName: "app.dashed")
                 .font(.system(size: 64))
                 .foregroundStyle(.secondary)
-            Text(NSLocalizedString("No Applications Found", comment: ""))
+            Text(L("No Applications Found"))
                 .font(.title2)
                 .fontWeight(.semibold)
-            Text(NSLocalizedString(
-                "Try scanning again or grant access to a different directory.",
-                comment: ""
-            ))
-            .foregroundStyle(.secondary)
-            Button(NSLocalizedString("Scan Again", comment: "")) {
+            Text(L("Try scanning again or grant access to a different directory."))
+                .foregroundStyle(.secondary)
+            Button(L("Scan Again")) {
                 viewModel.rescan()
             }
             .buttonStyle(.borderedProminent)
@@ -186,31 +173,33 @@ struct EmptyStateView: View {
 // MARK: - Table Header
 
 struct TableHeaderView: View {
+    @EnvironmentObject private var appState: AppState
+
     var body: some View {
         HStack(spacing: 12) {
             PlainHeaderLabel(
-                title: NSLocalizedString("Application", comment: ""),
+                title: L("Application"),
                 alignment: .leading
             )
 
             Spacer()
 
             TippedHeaderLabel(
-                title: NSLocalizedString("Framework", comment: ""),
-                tooltip: NSLocalizedString("The development framework detected inside the app bundle (e.g. Electron, SwiftUI, Qt). Electron apps also show Chromium and Node.js versions.", comment: ""),
+                title: L("Framework"),
+                tooltip: L("The development framework detected inside the app bundle (e.g. Electron, SwiftUI, Qt). Electron apps also show Chromium and Node.js versions."),
                 alignment: .trailing,
                 width: 140
             )
 
             PlainHeaderLabel(
-                title: NSLocalizedString("Size / Date", comment: ""),
+                title: L("Size / Date"),
                 alignment: .trailing,
                 width: 90
             )
 
             TippedHeaderLabel(
-                title: NSLocalizedString("Arch", comment: ""),
-                tooltip: NSLocalizedString("CPU architecture: Apple Silicon (arm64), Intel (x86_64), or Universal (both).", comment: ""),
+                title: L("Arch"),
+                tooltip: L("CPU architecture: Apple Silicon (arm64), Intel (x86_64), or Universal (both)."),
                 alignment: .center,
                 width: 90
             )
