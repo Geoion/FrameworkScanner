@@ -94,7 +94,7 @@ struct AppRowView: View {
 
             if let frameworks = embeddedFrameworks {
                 if frameworks.isEmpty {
-                    Text(NSLocalizedString("No embedded frameworks", comment: ""))
+                    Text(L("No embedded frameworks"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .padding(.leading, 66)
