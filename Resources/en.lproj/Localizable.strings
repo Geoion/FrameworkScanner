@@ -1,0 +1,62 @@
+/* Toolbar */
+"Scan" = "Scan";
+
+/* Permission */
+"Permission Required" = "Permission Required";
+"Grant Access" = "Grant Access";
+"Cancel" = "Cancel";
+"Access Required" = "Access Required";
+"FrameworkScanner needs access to the Applications folder to scan installed apps. Please grant access to continue." = "FrameworkScanner needs access to the Applications folder to scan installed apps. Please grant access to continue.";
+"FrameworkScanner needs access to the Applications folder to scan and identify frameworks used by your installed apps." = "FrameworkScanner needs access to the Applications folder to scan and identify frameworks used by your installed apps.";
+"Select Applications Folder" = "Select Applications Folder";
+"FrameworkScanner needs access to the Applications folder to scan installed apps." = "FrameworkScanner needs access to the Applications folder to scan installed apps.";
+
+/* Scanning */
+"Scanning applications..." = "Scanning applications...";
+
+/* Empty State */
+"No Applications Found" = "No Applications Found";
+"Try scanning again or grant access to a different directory." = "Try scanning again or grant access to a different directory.";
+"Scan Again" = "Scan Again";
+
+/* Filter */
+"Search apps..." = "Search apps...";
+"All Frameworks" = "All Frameworks";
+"All" = "All";
+"selected" = "selected";
+
+/* Sort */
+"Name" = "Name";
+"Size" = "Size";
+"Date" = "Date";
+"Framework" = "Framework";
+
+/* Scanning */
+"Preparing scan..." = "Preparing scan...";
+
+/* Table Header */
+"Application" = "Application";
+"App name, version and bundle identifier" = "App name, version and bundle identifier";
+"The development framework detected inside the app bundle (e.g. Electron, SwiftUI, Qt). Electron apps also show Chromium and Node.js versions." = "The development framework detected inside the app bundle (e.g. Electron, SwiftUI, Qt). Electron apps also show Chromium and Node.js versions.";
+"Size / Date" = "Size / Date";
+"Total disk size of the .app bundle, and the file creation date (install time)." = "Total disk size of the .app bundle, and the file creation date (install time).";
+"Arch" = "Arch";
+"CPU architecture: Apple Silicon (arm64), Intel (x86_64), or Universal (both)." = "CPU architecture: Apple Silicon (arm64), Intel (x86_64), or Universal (both).";
+
+/* Stats */
+"Total" = "Total";
+"Electron Disk" = "Electron Disk";
+
+/* Detail */
+"No embedded frameworks" = "No embedded frameworks";
+
+/* Settings */
+"Appearance" = "Appearance";
+"System" = "System";
+"Light" = "Light";
+"Dark" = "Dark";
+"Language" = "Language";
+"About" = "About";
+"Version" = "Version";
+"Author" = "Author";
+"Feedback" = "Feedback";

@@ -1,0 +1,62 @@
+/* Toolbar */
+"Scan" = "扫描";
+
+/* Permission */
+"Permission Required" = "需要授权";
+"Grant Access" = "授权访问";
+"Cancel" = "取消";
+"Access Required" = "需要访问权限";
+"FrameworkScanner needs access to the Applications folder to scan installed apps. Please grant access to continue." = "FrameworkScanner 需要访问「应用程序」文件夹才能扫描已安装的应用。请授权以继续。";
+"FrameworkScanner needs access to the Applications folder to scan and identify frameworks used by your installed apps." = "FrameworkScanner 需要访问「应用程序」文件夹，以扫描并识别已安装应用所使用的开发框架。";
+"Select Applications Folder" = "选择应用程序文件夹";
+"FrameworkScanner needs access to the Applications folder to scan installed apps." = "FrameworkScanner 需要访问「应用程序」文件夹以扫描已安装的应用。";
+
+/* Scanning */
+"Scanning applications..." = "正在扫描应用程序...";
+
+/* Empty State */
+"No Applications Found" = "未找到应用程序";
+"Try scanning again or grant access to a different directory." = "请尝试重新扫描或授权访问其他目录。";
+"Scan Again" = "重新扫描";
+
+/* Filter */
+"Search apps..." = "搜索应用...";
+"All Frameworks" = "所有框架";
+"All" = "全部";
+"selected" = "个已选";
+
+/* Sort */
+"Name" = "名称";
+"Size" = "大小";
+"Date" = "日期";
+"Framework" = "框架";
+
+/* Scanning */
+"Preparing scan..." = "准备扫描...";
+
+/* Table Header */
+"Application" = "应用程序";
+"App name, version and bundle identifier" = "应用名称、版本号和 Bundle 标识符";
+"The development framework detected inside the app bundle (e.g. Electron, SwiftUI, Qt). Electron apps also show Chromium and Node.js versions." = "从应用 Bundle 中检测到的开发框架（如 Electron、SwiftUI、Qt）。Electron 应用还会显示 Chromium 和 Node.js 版本。";
+"Size / Date" = "大小 / 日期";
+"Total disk size of the .app bundle, and the file creation date (install time)." = ".app 包的磁盘总大小，以及文件创建日期（安装时间）。";
+"Arch" = "架构";
+"CPU architecture: Apple Silicon (arm64), Intel (x86_64), or Universal (both)." = "CPU 架构：Apple Silicon (arm64)、Intel (x86_64) 或 Universal（通用）。";
+
+/* Stats */
+"Total" = "总计";
+"Electron Disk" = "Electron 占用";
+
+/* Detail */
+"No embedded frameworks" = "无内嵌 Framework";
+
+/* Settings */
+"Appearance" = "外观";
+"System" = "跟随系统";
+"Light" = "浅色";
+"Dark" = "深色";
+"Language" = "语言";
+"About" = "关于";
+"Version" = "版本";
+"Author" = "作者";
+"Feedback" = "反馈";
