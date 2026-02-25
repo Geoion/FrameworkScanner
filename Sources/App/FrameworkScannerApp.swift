@@ -8,9 +8,9 @@ struct FrameworkScannerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .id(appState.languageRefreshId)
                 .environmentObject(appState)
                 .environmentObject(viewModel)
-                .preferredColorScheme(appState.effectiveColorScheme)
                 .frame(minWidth: 700, minHeight: 500)
         }
         .windowStyle(.titleBar)
@@ -18,6 +18,7 @@ struct FrameworkScannerApp: App {
 
         Settings {
             SettingsView()
+                .id(appState.languageRefreshId)
                 .environmentObject(appState)
         }
     }
