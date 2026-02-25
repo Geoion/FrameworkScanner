@@ -15,10 +15,11 @@ targets:
     platform: macOS
     sources:
       - path: Sources
-    resources:
-      - path: Resources/Assets.xcassets
-      - path: Resources/en.lproj
-      - path: Resources/zh-Hans.lproj
+      - path: Resources
+        excludes:
+          - Info.plist
+          - FrameworkScanner.entitlements
+        buildPhase: resources
     info:
       path: Resources/Info.plist
     entitlements:
