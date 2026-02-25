@@ -2,20 +2,17 @@ import SwiftUI
 
 struct FilterToolbar: View {
     @EnvironmentObject private var viewModel: ScannerViewModel
+    @EnvironmentObject private var appState: AppState
 
     var body: some View {
         HStack(spacing: 12) {
-            // 搜索框
             HStack {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
-                TextField(
-                    NSLocalizedString("Search apps...", comment: ""),
-                    text: $viewModel.searchText
-                )
-                .textFieldStyle(.plain)
-                .disableAutocorrection(true)
-                .textContentType(.none)
+                TextField(L("Search apps..."), text: $viewModel.searchText)
+                    .textFieldStyle(.plain)
+                    .disableAutocorrection(true)
+                    .textContentType(.none)
 
                 if !viewModel.searchText.isEmpty {
                     Button {
@@ -33,9 +30,8 @@ struct FilterToolbar: View {
 
             Spacer()
 
-            // 框架筛选
             Menu {
-                Button(NSLocalizedString("All Frameworks", comment: "")) {
+                Button(L("All Frameworks")) {
                     viewModel.selectedFrameworks.removeAll()
                 }
 
@@ -58,16 +54,12 @@ struct FilterToolbar: View {
                     }
                 }
             } label: {
-                Label(
-                    filterLabel,
-                    systemImage: "line.3.horizontal.decrease.circle"
-                )
-                .font(.caption)
+                Label(filterLabel, systemImage: "line.3.horizontal.decrease.circle")
+                    .font(.caption)
             }
             .menuStyle(.borderlessButton)
             .frame(width: 120)
 
-            // 排序
             Menu {
                 ForEach(SortOption.allCases) { option in
                     Button {
@@ -88,11 +80,8 @@ struct FilterToolbar: View {
                     }
                 }
             } label: {
-                Label(
-                    localizedSortName(viewModel.sortOption),
-                    systemImage: "arrow.up.arrow.down"
-                )
-                .font(.caption)
+                Label(localizedSortName(viewModel.sortOption), systemImage: "arrow.up.arrow.down")
+                    .font(.caption)
             }
             .menuStyle(.borderlessButton)
             .frame(width: 100)
@@ -103,20 +92,20 @@ struct FilterToolbar: View {
 
     private var filterLabel: String {
         if viewModel.selectedFrameworks.isEmpty {
-            return NSLocalizedString("All", comment: "")
+            return L("All")
         }
         if viewModel.selectedFrameworks.count == 1 {
             return viewModel.selectedFrameworks.first!.displayName
         }
-        return "\(viewModel.selectedFrameworks.count) " + NSLocalizedString("selected", comment: "")
+        return "\(viewModel.selectedFrameworks.count) " + L("selected")
     }
 
     private func localizedSortName(_ option: SortOption) -> String {
         switch option {
-        case .name: return NSLocalizedString("Name", comment: "")
-        case .size: return NSLocalizedString("Size", comment: "")
-        case .date: return NSLocalizedString("Date", comment: "")
-        case .framework: return NSLocalizedString("Framework", comment: "")
+        case .name: return L("Name")
+        case .size: return L("Size")
+        case .date: return L("Date")
+        case .framework: return L("Framework")
         }
     }
 }
