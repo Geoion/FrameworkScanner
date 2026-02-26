@@ -12,7 +12,7 @@ actor AppScanner {
 
     func scan(
         directories: [URL],
-        homebrewDirs: Set<URL> = [],
+        homebrewAppPaths: Set<String> = [],
         systemAppDirs: Set<URL> = [],
         onProgress: @escaping @Sendable (ScanProgress) -> Void
     ) async -> [AppInfo] {
@@ -30,7 +30,7 @@ actor AppScanner {
 
         // 去重（同一个 .app 可能通过多个目录被枚举到）
         var seen = Set<String>()
-        allAppURLs = allAppURLs.filter { seen.insert($0.standardizedFileURL.path).inserted }
+        allAppURLs = allAppURLs.filter { seen.insert($0.resolvingSymlinksInPath().standardizedFileURL.path).inserted }
 
         let total = allAppURLs.count
         if total == 0 { return [] }
@@ -44,9 +44,9 @@ actor AppScanner {
 
             for _ in 0..<min(maxConcurrency, total) {
                 let url = allAppURLs[index]
-                let parentDir = url.deletingLastPathComponent().standardizedFileURL
-                let isHomebrew = homebrewDirs.contains(parentDir)
-                let isSystem = systemAppDirs.contains(parentDir)
+                let realPath = url.resolvingSymlinksInPath().standardizedFileURL.path
+                let isHomebrew = homebrewAppPaths.contains(realPath)
+                let isSystem = systemAppDirs.contains(url.deletingLastPathComponent().standardizedFileURL)
                 index += 1
                 group.addTask {
                     await self.processApp(url: url, isFromHomebrew: isHomebrew, isSystemApp: isSystem, total: total, counter: counter, onProgress: onProgress)
@@ -59,9 +59,9 @@ actor AppScanner {
                 }
                 if index < total {
                     let url = allAppURLs[index]
-                    let parentDir = url.deletingLastPathComponent().standardizedFileURL
-                    let isHomebrew = homebrewDirs.contains(parentDir)
-                    let isSystem = systemAppDirs.contains(parentDir)
+                    let realPath = url.resolvingSymlinksInPath().standardizedFileURL.path
+                    let isHomebrew = homebrewAppPaths.contains(realPath)
+                    let isSystem = systemAppDirs.contains(url.deletingLastPathComponent().standardizedFileURL)
                     index += 1
                     group.addTask {
                         await self.processApp(url: url, isFromHomebrew: isHomebrew, isSystemApp: isSystem, total: total, counter: counter, onProgress: onProgress)
