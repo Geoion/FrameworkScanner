@@ -51,6 +51,14 @@ struct AppRowView: View {
                         .padding(.horizontal, 4)
                         .padding(.vertical, 1)
                         .background(.quaternary, in: RoundedRectangle(cornerRadius: 3))
+
+                    if app.isSystemApp {
+                        SystemAppLabel()
+                    }
+
+                    if app.isFromHomebrew {
+                        HomebrewLabel()
+                    }
                 }
 
                 Text(app.bundleIdentifier)
@@ -158,6 +166,43 @@ struct AppRowView: View {
                 embeddedFrameworks = frameworks
             }
         }
+    }
+}
+
+// MARK: - System App Label
+
+struct SystemAppLabel: View {
+    var body: some View {
+        HStack(spacing: 3) {
+            Image(systemName: "apple.logo")
+                .font(.system(size: 8))
+            Text("System")
+                .font(.system(size: 9, weight: .medium))
+        }
+        .foregroundStyle(Color.secondary)
+        .padding(.horizontal, 5)
+        .padding(.vertical, 2)
+        .background(Color.secondary.opacity(0.12), in: RoundedRectangle(cornerRadius: 3))
+    }
+}
+
+// MARK: - Homebrew Label
+
+struct HomebrewLabel: View {
+    var body: some View {
+        HStack(spacing: 3) {
+            Image(systemName: "mug.fill")
+                .font(.system(size: 8))
+            Text("Homebrew")
+                .font(.system(size: 9, weight: .medium))
+        }
+        .foregroundStyle(Color(red: 0.86, green: 0.55, blue: 0.18))
+        .padding(.horizontal, 5)
+        .padding(.vertical, 2)
+        .background(
+            Color(red: 0.86, green: 0.55, blue: 0.18).opacity(0.12),
+            in: RoundedRectangle(cornerRadius: 3)
+        )
     }
 }
 
