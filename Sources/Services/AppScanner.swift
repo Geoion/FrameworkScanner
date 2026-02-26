@@ -10,7 +10,12 @@ struct ScanProgress: @unchecked Sendable {
 
 actor AppScanner {
 
-    func scan(directories: [URL], onProgress: @escaping @Sendable (ScanProgress) -> Void) async -> [AppInfo] {
+    func scan(
+        directories: [URL],
+        homebrewDirs: Set<URL> = [],
+        systemAppDirs: Set<URL> = [],
+        onProgress: @escaping @Sendable (ScanProgress) -> Void
+    ) async -> [AppInfo] {
         let fm = FileManager.default
         var allAppURLs: [URL] = []
 
@@ -22,6 +27,10 @@ actor AppScanner {
             ) else { continue }
             allAppURLs.append(contentsOf: contents.filter { $0.pathExtension == "app" })
         }
+
+        // 去重（同一个 .app 可能通过多个目录被枚举到）
+        var seen = Set<String>()
+        allAppURLs = allAppURLs.filter { seen.insert($0.standardizedFileURL.path).inserted }
 
         let total = allAppURLs.count
         if total == 0 { return [] }
@@ -35,9 +44,12 @@ actor AppScanner {
 
             for _ in 0..<min(maxConcurrency, total) {
                 let url = allAppURLs[index]
+                let parentDir = url.deletingLastPathComponent().standardizedFileURL
+                let isHomebrew = homebrewDirs.contains(parentDir)
+                let isSystem = systemAppDirs.contains(parentDir)
                 index += 1
                 group.addTask {
-                    await self.processApp(url: url, total: total, counter: counter, onProgress: onProgress)
+                    await self.processApp(url: url, isFromHomebrew: isHomebrew, isSystemApp: isSystem, total: total, counter: counter, onProgress: onProgress)
                 }
             }
 
@@ -47,9 +59,12 @@ actor AppScanner {
                 }
                 if index < total {
                     let url = allAppURLs[index]
+                    let parentDir = url.deletingLastPathComponent().standardizedFileURL
+                    let isHomebrew = homebrewDirs.contains(parentDir)
+                    let isSystem = systemAppDirs.contains(parentDir)
                     index += 1
                     group.addTask {
-                        await self.processApp(url: url, total: total, counter: counter, onProgress: onProgress)
+                        await self.processApp(url: url, isFromHomebrew: isHomebrew, isSystemApp: isSystem, total: total, counter: counter, onProgress: onProgress)
                     }
                 }
             }
@@ -59,7 +74,7 @@ actor AppScanner {
     }
 
     private func processApp(
-        url: URL, total: Int, counter: Counter,
+        url: URL, isFromHomebrew: Bool, isSystemApp: Bool, total: Int, counter: Counter,
         onProgress: @escaping @Sendable (ScanProgress) -> Void
     ) async -> AppInfo? {
         let icon = await MainActor.run { NSWorkspace.shared.icon(forFile: url.path) }
@@ -69,7 +84,7 @@ actor AppScanner {
         // 只更新图标和名称，current 保持上一次已完成的值
         onProgress(ScanProgress(current: currentBefore, total: total, currentAppName: name, currentAppIcon: icon))
 
-        let info = await self.extractAppInfo(from: url)
+        let info = await self.extractAppInfo(from: url, isFromHomebrew: isFromHomebrew, isSystemApp: isSystemApp)
         let currentAfter = await counter.increment()
 
         onProgress(ScanProgress(current: currentAfter, total: total, currentAppName: name, currentAppIcon: icon))
@@ -77,7 +92,7 @@ actor AppScanner {
         return info
     }
 
-    private func extractAppInfo(from appURL: URL) async -> AppInfo? {
+    private func extractAppInfo(from appURL: URL, isFromHomebrew: Bool = false, isSystemApp: Bool = false) async -> AppInfo? {
         let fm = FileManager.default
         let plistURL = appURL
             .appendingPathComponent("Contents")
@@ -125,7 +140,9 @@ actor AppScanner {
             installDate: installDate,
             architecture: architecture,
             path: appURL,
-            electronDetail: electronDetail
+            electronDetail: electronDetail,
+            isFromHomebrew: isFromHomebrew,
+            isSystemApp: isSystemApp
         )
     }
 }
