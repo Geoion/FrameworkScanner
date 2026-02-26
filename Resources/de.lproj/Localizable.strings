@@ -23,8 +23,10 @@
 /* Filter */
 "Search apps..." = "Apps suchen...";
 "All Frameworks" = "Alle Frameworks";
+"All Sources" = "Alle Quellen";
 "All" = "Alle";
 "selected" = "ausgewählt";
+"User" = "Benutzer";
 
 /* Sort */
 "Name" = "Name";
@@ -46,6 +48,11 @@
 
 /* Detail */
 "No embedded frameworks" = "Keine eingebetteten Frameworks";
+
+/* Export */
+"Export" = "Exportieren";
+"Export as CSV" = "Als CSV exportieren";
+"Export as JSON" = "Als JSON exportieren";
 
 /* Settings */
 "Appearance" = "Erscheinungsbild";
