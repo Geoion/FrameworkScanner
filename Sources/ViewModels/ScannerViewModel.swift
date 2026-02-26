@@ -169,7 +169,7 @@ final class ScannerViewModel: ObservableObject {
 
         let results = await scanner.scan(
             directories: plan.dirs,
-            homebrewDirs: plan.homebrewDirs,
+            homebrewAppPaths: plan.homebrewAppPaths,
             systemAppDirs: plan.systemAppDirs
         ) { [weak self] progress in
             Task { @MainActor in
@@ -193,7 +193,7 @@ final class ScannerViewModel: ObservableObject {
 
     private func buildScanPlan(userGranted: URL) -> ScanPlan {
         var dirs: [URL] = [userGranted, userApplicationsURL]
-        var homebrewDirs: Set<URL> = []
+        var homebrewAppPaths: Set<String> = []
         var systemAppDirs: Set<URL> = []
 
         let systemApps = URL(fileURLWithPath: "/System/Applications")
@@ -204,13 +204,12 @@ final class ScannerViewModel: ObservableObject {
 
         for caskRoot in homebrewCaskRoots {
             if FileManager.default.fileExists(atPath: caskRoot.path) {
-                let versionDirs = homebrewAppURLs(in: caskRoot)
-                dirs.append(contentsOf: versionDirs)
-                versionDirs.forEach { homebrewDirs.insert($0.standardizedFileURL) }
+                // 收集 Caskroom 中所有 .app 符号链接指向的真实路径
+                homebrewAppPaths.formUnion(resolveHomebrewAppPaths(in: caskRoot))
             }
         }
 
-        return ScanPlan(dirs: dirs, homebrewDirs: homebrewDirs, systemAppDirs: systemAppDirs)
+        return ScanPlan(dirs: dirs, homebrewAppPaths: homebrewAppPaths, systemAppDirs: systemAppDirs)
     }
 
     private var userApplicationsURL: URL {
@@ -224,27 +223,41 @@ final class ScannerViewModel: ObservableObject {
         ]
     }
 
-    /// 从 Homebrew Caskroom 目录中找出所有 .app 所在的父目录
-    /// 结构：Caskroom/<cask-name>/<version>/<App.app>
-    /// 返回各版本目录，让 AppScanner 去枚举其中的 .app
-    private func homebrewAppURLs(in caskRoot: URL) -> [URL] {
+    /// 遍历 Caskroom，收集所有 .app 符号链接的解析后真实路径。
+    /// 结构：Caskroom/<cask-name>/<version>/<App.app -> /Applications/App.app>
+    private func resolveHomebrewAppPaths(in caskRoot: URL) -> Set<String> {
         let fm = FileManager.default
+        var paths = Set<String>()
+
         guard let casks = try? fm.contentsOfDirectory(
             at: caskRoot,
             includingPropertiesForKeys: [.isDirectoryKey],
             options: [.skipsHiddenFiles]
-        ) else { return [] }
+        ) else { return paths }
 
-        var versionDirs: [URL] = []
         for cask in casks {
             guard let versions = try? fm.contentsOfDirectory(
                 at: cask,
                 includingPropertiesForKeys: [.isDirectoryKey],
                 options: [.skipsHiddenFiles]
             ) else { continue }
-            versionDirs.append(contentsOf: versions)
+
+            for versionDir in versions {
+                guard let entries = try? fm.contentsOfDirectory(
+                    at: versionDir,
+                    includingPropertiesForKeys: [.isSymbolicLinkKey],
+                    options: [.skipsHiddenFiles]
+                ) else { continue }
+
+                for entry in entries where entry.pathExtension == "app" {
+                    // 解析符号链接，得到 .app 的真实路径
+                    let resolved = entry.resolvingSymlinksInPath().standardizedFileURL.path
+                    paths.insert(resolved)
+                }
+            }
         }
-        return versionDirs
+
+        return paths
     }
 }
 
@@ -252,7 +265,7 @@ final class ScannerViewModel: ObservableObject {
 
 private struct ScanPlan {
     let dirs: [URL]
-    let homebrewDirs: Set<URL>
+    let homebrewAppPaths: Set<String>
     let systemAppDirs: Set<URL>
 }
 
