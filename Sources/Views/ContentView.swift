@@ -30,6 +30,24 @@ struct ContentView: View {
                 }
                 .disabled(viewModel.isScanning)
             }
+
+            ToolbarItem(placement: .primaryAction) {
+                Menu {
+                    Button {
+                        viewModel.exportAsCSV()
+                    } label: {
+                        Label(L("Export as CSV"), systemImage: "tablecells")
+                    }
+                    Button {
+                        viewModel.exportAsJSON()
+                    } label: {
+                        Label(L("Export as JSON"), systemImage: "curlybraces")
+                    }
+                } label: {
+                    Label(L("Export"), systemImage: "square.and.arrow.up")
+                }
+                .disabled(viewModel.filteredApps.isEmpty)
+            }
         }
         .onAppear {
             viewModel.checkPermissionAndScan()
