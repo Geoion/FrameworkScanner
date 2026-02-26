@@ -17,3 +17,27 @@ enum SortDirection {
         self = (self == .ascending) ? .descending : .ascending
     }
 }
+
+enum AppSource: String, CaseIterable, Identifiable {
+    case user = "User"
+    case system = "System"
+    case homebrew = "Homebrew"
+
+    var id: String { rawValue }
+
+    var symbolName: String {
+        switch self {
+        case .user: return "person.fill"
+        case .system: return "apple.logo"
+        case .homebrew: return "mug.fill"
+        }
+    }
+
+    func matches(_ app: AppInfo) -> Bool {
+        switch self {
+        case .user: return !app.isSystemApp && !app.isFromHomebrew
+        case .system: return app.isSystemApp
+        case .homebrew: return app.isFromHomebrew
+        }
+    }
+}
