@@ -88,6 +88,17 @@ struct AppRowView: View {
                 .padding(.vertical, 2)
                 .background(.quaternary, in: Capsule())
                 .frame(width: 90)
+
+            Button {
+                NSWorkspace.shared.activateFileViewerSelecting([app.path])
+            } label: {
+                Image(systemName: "folder")
+                    .font(.system(size: 13))
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .help("Show in Finder")
+            .frame(width: 20)
         }
         .padding(.vertical, 4)
         .padding(.horizontal, 4)
