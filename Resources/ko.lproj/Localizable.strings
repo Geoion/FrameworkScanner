@@ -23,8 +23,10 @@
 /* Filter */
 "Search apps..." = "앱 검색...";
 "All Frameworks" = "모든 프레임워크";
+"All Sources" = "모든 출처";
 "All" = "전체";
 "selected" = "개 선택됨";
+"User" = "사용자";
 
 /* Sort */
 "Name" = "이름";
@@ -46,6 +48,11 @@
 
 /* Detail */
 "No embedded frameworks" = "내장 프레임워크 없음";
+
+/* Export */
+"Export" = "내보내기";
+"Export as CSV" = "CSV로 내보내기";
+"Export as JSON" = "JSON으로 내보내기";
 
 /* Settings */
 "Appearance" = "외관";
