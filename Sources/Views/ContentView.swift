@@ -14,11 +14,15 @@ struct ContentView: View {
                 EmptyStateView()
             } else {
                 FilterToolbar()
+                    .fixedSize(horizontal: false, vertical: true)
                 StatsBarView()
+                    .fixedSize(horizontal: false, vertical: true)
                 Divider()
                 TableHeaderView()
+                    .fixedSize(horizontal: false, vertical: true)
                 Divider()
                 AppListView()
+                    .frame(maxHeight: .infinity)
             }
         }
         .toolbar {
@@ -221,6 +225,8 @@ struct TableHeaderView: View {
                 alignment: .center,
                 width: 90
             )
+
+            Color.clear.frame(width: 20)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 6)
@@ -290,10 +296,15 @@ struct AppListView: View {
     @EnvironmentObject private var viewModel: ScannerViewModel
 
     var body: some View {
-        List(viewModel.filteredApps) { app in
-            AppRowView(app: app)
-                .listRowInsets(EdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12))
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(viewModel.filteredApps) { app in
+                    AppRowView(app: app)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                    Divider().padding(.leading, 12)
+                }
+            }
         }
-        .listStyle(.inset)
     }
 }
