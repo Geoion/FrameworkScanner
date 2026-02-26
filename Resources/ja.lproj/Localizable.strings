@@ -23,8 +23,10 @@
 /* Filter */
 "Search apps..." = "アプリを検索...";
 "All Frameworks" = "すべてのフレームワーク";
+"All Sources" = "すべてのソース";
 "All" = "すべて";
 "selected" = "件選択";
+"User" = "ユーザー";
 
 /* Sort */
 "Name" = "名前";
@@ -46,6 +48,11 @@
 
 /* Detail */
 "No embedded frameworks" = "埋め込みフレームワークなし";
+
+/* Export */
+"Export" = "書き出す";
+"Export as CSV" = "CSVとして書き出す";
+"Export as JSON" = "JSONとして書き出す";
 
 /* Settings */
 "Appearance" = "外観";
