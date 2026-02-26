@@ -22,8 +22,10 @@
 /* Filter */
 "Search apps..." = "搜索应用...";
 "All Frameworks" = "所有框架";
+"All Sources" = "所有来源";
 "All" = "全部";
 "selected" = "个已选";
+"User" = "用户";
 
 /* Sort */
 "Name" = "名称";
@@ -49,6 +51,11 @@
 
 /* Detail */
 "No embedded frameworks" = "无内嵌 Framework";
+
+/* Export */
+"Export" = "导出";
+"Export as CSV" = "导出为 CSV";
+"Export as JSON" = "导出为 JSON";
 
 /* Settings */
 "Appearance" = "外观";
