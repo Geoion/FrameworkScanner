@@ -23,8 +23,10 @@
 /* Filter */
 "Search apps..." = "Поиск приложений...";
 "All Frameworks" = "Все фреймворки";
+"All Sources" = "Все источники";
 "All" = "Все";
 "selected" = "выбрано";
+"User" = "Пользователь";
 
 /* Sort */
 "Name" = "Имя";
@@ -46,6 +48,11 @@
 
 /* Detail */
 "No embedded frameworks" = "Нет встроенных фреймворков";
+
+/* Export */
+"Export" = "Экспорт";
+"Export as CSV" = "Экспорт в CSV";
+"Export as JSON" = "Экспорт в JSON";
 
 /* Settings */
 "Appearance" = "Оформление";
