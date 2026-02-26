@@ -19,6 +19,8 @@ struct AppInfo: Identifiable, Equatable {
     let architecture: Architecture
     let path: URL
     var electronDetail: ElectronDetail?
+    let isFromHomebrew: Bool
+    let isSystemApp: Bool
 
     let formattedSize: String
     let formattedDate: String
@@ -27,7 +29,9 @@ struct AppInfo: Identifiable, Equatable {
         id: String, name: String, bundleIdentifier: String, version: String,
         icon: NSImage, frameworkType: FrameworkType, appSize: Int64,
         installDate: Date, architecture: Architecture, path: URL,
-        electronDetail: ElectronDetail? = nil
+        electronDetail: ElectronDetail? = nil,
+        isFromHomebrew: Bool = false,
+        isSystemApp: Bool = false
     ) {
         self.id = id
         self.name = name
@@ -39,6 +43,8 @@ struct AppInfo: Identifiable, Equatable {
         self.architecture = architecture
         self.path = path
         self.electronDetail = electronDetail
+        self.isFromHomebrew = isFromHomebrew
+        self.isSystemApp = isSystemApp
 
         // 预缩放图标到 40pt (80px @2x) 避免列表滚动时重复缩放
         let targetSize = NSSize(width: 40, height: 40)
