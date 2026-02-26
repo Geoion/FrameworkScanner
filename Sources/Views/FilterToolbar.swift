@@ -31,6 +31,36 @@ struct FilterToolbar: View {
             Spacer()
 
             Menu {
+                Button(L("All Sources")) {
+                    viewModel.selectedSources.removeAll()
+                }
+
+                Divider()
+
+                ForEach(AppSource.allCases) { source in
+                    Button {
+                        if viewModel.selectedSources.contains(source) {
+                            viewModel.selectedSources.remove(source)
+                        } else {
+                            viewModel.selectedSources.insert(source)
+                        }
+                    } label: {
+                        HStack {
+                            if viewModel.selectedSources.contains(source) {
+                                Image(systemName: "checkmark")
+                            }
+                            Label(localizedSourceName(source), systemImage: source.symbolName)
+                        }
+                    }
+                }
+            } label: {
+                Label(sourceLabel, systemImage: "tray.2")
+                    .font(.caption)
+            }
+            .menuStyle(.borderlessButton)
+            .frame(width: 110)
+
+            Menu {
                 Button(L("All Frameworks")) {
                     viewModel.selectedFrameworks.removeAll()
                 }
@@ -98,6 +128,24 @@ struct FilterToolbar: View {
             return viewModel.selectedFrameworks.first!.displayName
         }
         return "\(viewModel.selectedFrameworks.count) " + L("selected")
+    }
+
+    private var sourceLabel: String {
+        if viewModel.selectedSources.isEmpty {
+            return L("All Sources")
+        }
+        if viewModel.selectedSources.count == 1 {
+            return localizedSourceName(viewModel.selectedSources.first!)
+        }
+        return "\(viewModel.selectedSources.count) " + L("selected")
+    }
+
+    private func localizedSourceName(_ source: AppSource) -> String {
+        switch source {
+        case .user: return L("User")
+        case .system: return L("System")
+        case .homebrew: return "Homebrew"
+        }
     }
 
     private func localizedSortName(_ option: SortOption) -> String {
