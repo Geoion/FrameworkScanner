@@ -31,3 +31,6 @@ targets:
         INFOPLIST_FILE: Resources/Info.plist
         CODE_SIGN_ENTITLEMENTS: Resources/FrameworkScanner.entitlements
         ENABLE_HARDENED_RUNTIME: true
+        CODE_SIGN_IDENTITY: "-"
+        DEPLOYMENT_POSTPROCESSING: YES
+        SKIP_INSTALL: NO
