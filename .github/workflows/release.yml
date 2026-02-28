@@ -27,11 +27,19 @@ jobs:
             -scheme FrameworkScanner \
             -configuration Release \
             -derivedDataPath build \
-            CODE_SIGN_IDENTITY="-" \
-            CODE_SIGNING_REQUIRED=YES \
-            AD_HOC_CODE_SIGNING_ALLOWED=YES \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
             ONLY_ACTIVE_ARCH=NO \
             clean build
+
+      - name: Sign app
+        run: |
+          APP_PATH=$(find build/Build/Products/Release -name "FrameworkScanner.app" -maxdepth 1)
+          find "$APP_PATH" -exec xattr -c {} \; 2>/dev/null || true
+          codesign --force --deep --sign - \
+            --entitlements Resources/FrameworkScanner.entitlements \
+            "$APP_PATH"
 
       - name: Locate .app
         id: locate
