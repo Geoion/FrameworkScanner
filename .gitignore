@@ -23,3 +23,6 @@ DerivedData/
 ## Misc
 *.swp
 *~
+
+## Release artifacts
+*.dmg
