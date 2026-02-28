@@ -27,7 +27,7 @@ A macOS app that scans installed applications and identifies the development fra
 
 ```bash
 brew tap Geoion/tap
-brew install --cask FrameworkScanner
+brew install --cask frameworkscanner
 ```
 
 After installation, if macOS Gatekeeper blocks the app on first launch, run:
