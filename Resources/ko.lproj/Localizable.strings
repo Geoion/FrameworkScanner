@@ -66,20 +66,20 @@
 "Feedback" = "피드백";
 
 /* Detail - new keys */
-"Embedded Frameworks" = "Embedded Frameworks";
-"Code Signing" = "Code Signing";
-"Status" = "Status";
-"Team ID" = "Team ID";
-"Authority" = "Authority";
-"Notarized" = "Notarized";
-"Not Signed" = "Not Signed";
-"Security Issues" = "Security Issues";
+"Embedded Frameworks" = "내장 프레임워크";
+"Code Signing" = "코드 서명";
+"Status" = "상태";
+"Team ID" = "팀 ID";
+"Authority" = "서명 기관";
+"Notarized" = "공증됨";
+"Not Signed" = "서명 없음";
+"Security Issues" = "보안 취약점";
 
 /* Charts */
-"Charts" = "Charts";
-"Framework Distribution" = "Framework Distribution";
-"Framework Share" = "Framework Share";
-"App Count by Framework" = "App Count by Framework";
-"Disk Usage by Framework" = "Disk Usage by Framework";
-"No data available" = "No data available";
-"Show Charts" = "Show Charts";
+"Charts" = "차트";
+"Framework Distribution" = "프레임워크 분포";
+"Framework Share" = "프레임워크 비율";
+"App Count by Framework" = "프레임워크별 앱 수";
+"Disk Usage by Framework" = "프레임워크별 디스크 사용량";
+"No data available" = "데이터 없음";
+"Show Charts" = "차트 보기";
