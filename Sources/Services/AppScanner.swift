@@ -129,7 +129,7 @@ actor AppScanner {
             electronDetail = ElectronAnalyzer.analyze(at: appURL)
         }
 
-        return AppInfo(
+        let appInfo = AppInfo(
             id: bundleID,
             name: name,
             bundleIdentifier: bundleID,
@@ -142,8 +142,15 @@ actor AppScanner {
             path: appURL,
             electronDetail: electronDetail,
             isFromHomebrew: isFromHomebrew,
-            isSystemApp: isSystemApp
+            isSystemApp: isSystemApp,
+            securityIssues: SecurityAnalyzer.analyze(app: AppInfo(
+                id: bundleID, name: name, bundleIdentifier: bundleID, version: version,
+                icon: icon, frameworkType: frameworkType, appSize: appSize,
+                installDate: installDate, architecture: architecture, path: appURL,
+                electronDetail: electronDetail, isFromHomebrew: isFromHomebrew, isSystemApp: isSystemApp
+            ))
         )
+        return appInfo
     }
 }
 
