@@ -6,14 +6,18 @@ A macOS app that scans installed applications and identifies the development fra
 
 ![Screenshot](image/c49ed43a-27c7-4909-ab99-e0c1230af6fe.png)
 
+![Screenshot](image/ae71de4240184af79294164daa641bca.png)
+
+
 ## Features
 
 - Scans `/Applications` and `~/Applications` with up to 8 concurrent tasks
-- Detects 13 framework types: Electron, CEF, Flutter, Qt, Unity, Unreal Engine, .NET/MAUI, Java/JVM, Tauri, Catalyst, SwiftUI, AppKit, and Unknown
+- Detects 17 framework types: Electron, CEF, Flutter, Qt, Unity, Unreal Engine, .NET/MAUI, Java/JVM, Tauri, Catalyst, SwiftUI, AppKit, Python, Go/Wails, React Native, Capacitor, and Unknown
 - Electron apps show Electron / Chromium / Node.js version details
-- Expandable rows reveal embedded frameworks with name, version, path, and size
+- Security analysis: flags Electron apps with known CVEs (color-coded by severity)
+- Expandable rows reveal embedded frameworks, code signing info, and Info.plist details
 - Search, multi-filter, and sort by name / size / date / framework
-- Stats bar showing framework distribution and total Electron disk usage
+- Stats bar with a Charts button — opens a window with pie chart, bar chart, and disk usage chart
 - Export results as CSV or JSON
 - Light / Dark / System appearance, 8 languages supported
 
@@ -60,6 +64,19 @@ open FrameworkScanner.xcodeproj
 4. Click any row to expand and view embedded frameworks
 5. Use the search bar and filter menu to narrow results
 6. Use the **Export** button to save results as CSV or JSON
+
+## Changelog
+
+### v1.1.0
+
+- **New frameworks**: Added detection for Python (PyInstaller), Go/Wails, React Native macOS, and Capacitor (now 17 framework types)
+- **Security analysis**: Electron apps with known CVEs are flagged with a shield icon, color-coded by severity (critical / high / medium / low)
+- **Charts window**: Click the chart button in the stats bar to open a dedicated window with a pie chart, bar chart, and disk usage chart (requires macOS 14+)
+- **Expanded detail drawer**: Expanding an app row now shows code signing status (authority, Team ID, notarization), key Info.plist fields, and security issues alongside the embedded framework list
+
+### v1.0.0
+
+- Initial release
 
 ## License
 
