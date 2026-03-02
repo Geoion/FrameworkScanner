@@ -21,6 +21,11 @@ struct AppInfo: Identifiable, Equatable {
     var electronDetail: ElectronDetail?
     let isFromHomebrew: Bool
     let isSystemApp: Bool
+    let securityIssues: [SecurityIssue]
+
+    var highestSeverity: SecurityIssue.Severity? {
+        SecurityAnalyzer.highestSeverity(issues: securityIssues)
+    }
 
     let formattedSize: String
     let formattedDate: String
@@ -31,7 +36,8 @@ struct AppInfo: Identifiable, Equatable {
         installDate: Date, architecture: Architecture, path: URL,
         electronDetail: ElectronDetail? = nil,
         isFromHomebrew: Bool = false,
-        isSystemApp: Bool = false
+        isSystemApp: Bool = false,
+        securityIssues: [SecurityIssue] = []
     ) {
         self.id = id
         self.name = name
@@ -45,6 +51,7 @@ struct AppInfo: Identifiable, Equatable {
         self.electronDetail = electronDetail
         self.isFromHomebrew = isFromHomebrew
         self.isSystemApp = isSystemApp
+        self.securityIssues = securityIssues
 
         // 预缩放图标到 40pt (80px @2x) 避免列表滚动时重复缩放
         let targetSize = NSSize(width: 40, height: 40)
