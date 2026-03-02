@@ -18,7 +18,9 @@ targets:
       - path: Resources
         excludes:
           - Info.plist
+          - "Info 2.plist"
           - FrameworkScanner.entitlements
+          - "FrameworkScanner 2.entitlements"
         buildPhase: resources
     info:
       path: Resources/Info.plist
