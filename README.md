@@ -67,6 +67,10 @@ open FrameworkScanner.xcodeproj
 
 ## Changelog
 
+### v1.1.1
+
+- **i18n fix**: Complete localization for all 8 languages — Japanese, Korean, German, Spanish, Italian, and Russian translations were missing for the new keys added in v1.1.0 (security analysis, code signing detail, and charts)
+
 ### v1.1.0
 
 - **New frameworks**: Added detection for Python (PyInstaller), Go/Wails, React Native macOS, and Capacitor (now 17 framework types)
