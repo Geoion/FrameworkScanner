@@ -66,20 +66,20 @@
 "Feedback" = "Comentarios";
 
 /* Detail - new keys */
-"Embedded Frameworks" = "Embedded Frameworks";
-"Code Signing" = "Code Signing";
-"Status" = "Status";
-"Team ID" = "Team ID";
-"Authority" = "Authority";
-"Notarized" = "Notarized";
-"Not Signed" = "Not Signed";
-"Security Issues" = "Security Issues";
+"Embedded Frameworks" = "Frameworks integrados";
+"Code Signing" = "Firma de código";
+"Status" = "Estado";
+"Team ID" = "ID de equipo";
+"Authority" = "Autoridad de firma";
+"Notarized" = "Notarizado";
+"Not Signed" = "Sin firmar";
+"Security Issues" = "Problemas de seguridad";
 
 /* Charts */
-"Charts" = "Charts";
-"Framework Distribution" = "Framework Distribution";
-"Framework Share" = "Framework Share";
-"App Count by Framework" = "App Count by Framework";
-"Disk Usage by Framework" = "Disk Usage by Framework";
-"No data available" = "No data available";
-"Show Charts" = "Show Charts";
+"Charts" = "Gráficos";
+"Framework Distribution" = "Distribución de frameworks";
+"Framework Share" = "Proporción de frameworks";
+"App Count by Framework" = "Número de apps por framework";
+"Disk Usage by Framework" = "Uso de disco por framework";
+"No data available" = "Sin datos disponibles";
+"Show Charts" = "Mostrar gráficos";
