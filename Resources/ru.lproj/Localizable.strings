@@ -66,20 +66,20 @@
 "Feedback" = "Обратная связь";
 
 /* Detail - new keys */
-"Embedded Frameworks" = "Embedded Frameworks";
-"Code Signing" = "Code Signing";
-"Status" = "Status";
-"Team ID" = "Team ID";
-"Authority" = "Authority";
-"Notarized" = "Notarized";
-"Not Signed" = "Not Signed";
-"Security Issues" = "Security Issues";
+"Embedded Frameworks" = "Встроенные фреймворки";
+"Code Signing" = "Подпись кода";
+"Status" = "Статус";
+"Team ID" = "ID команды";
+"Authority" = "Центр сертификации";
+"Notarized" = "Нотаризовано";
+"Not Signed" = "Не подписано";
+"Security Issues" = "Проблемы безопасности";
 
 /* Charts */
-"Charts" = "Charts";
-"Framework Distribution" = "Framework Distribution";
-"Framework Share" = "Framework Share";
-"App Count by Framework" = "App Count by Framework";
-"Disk Usage by Framework" = "Disk Usage by Framework";
-"No data available" = "No data available";
-"Show Charts" = "Show Charts";
+"Charts" = "Графики";
+"Framework Distribution" = "Распределение фреймворков";
+"Framework Share" = "Доля фреймворков";
+"App Count by Framework" = "Количество приложений по фреймворку";
+"Disk Usage by Framework" = "Использование диска по фреймворку";
+"No data available" = "Нет данных";
+"Show Charts" = "Показать графики";
