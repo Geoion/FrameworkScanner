@@ -63,6 +63,28 @@ struct FrameworkDetector {
             return .javaJVM
         }
 
+        // React Native macOS: RCTBridge or ReactCommon framework
+        if frameworkNames.contains(where: { $0.contains("React") || $0.contains("RCT") }) ||
+           resourceNames.contains(where: { $0 == "main.jsbundle" || $0.hasSuffix(".jsbundle") }) {
+            return .reactNative
+        }
+
+        // Capacitor: capacitor.config.json or @capacitor in resources
+        if resourceNames.contains("capacitor.config.json") ||
+           resourceNames.contains(where: { $0.contains("capacitor") }) {
+            return .capacitor
+        }
+
+        // Python (PyInstaller): _MEIPASS marker or pyinstaller bootloader
+        if isPythonApp(contentsDir: contentsDir, resourceNames: resourceNames) {
+            return .python
+        }
+
+        // Go / Wails: wails.json or specific Go runtime indicators
+        if isGoWailsApp(contentsDir: contentsDir, resourceNames: resourceNames, frameworkNames: frameworkNames) {
+            return .go
+        }
+
         // Tauri: small app with WebKit usage but no Electron
         if isTauri(frameworkNames: frameworkNames, appURL: appURL) {
             return .tauri
@@ -100,6 +122,39 @@ struct FrameworkDetector {
     private static func hasJavaIndicators(contentsDir: URL) -> Bool {
         let javaDir = contentsDir.appendingPathComponent("Java")
         return FileManager.default.fileExists(atPath: javaDir.path)
+    }
+
+    private static func isPythonApp(contentsDir: URL, resourceNames: [String]) -> Bool {
+        let fm = FileManager.default
+        // PyInstaller 打包特征：_MEIPASS 目录或 base_library.zip
+        let macOSDir = contentsDir.appendingPathComponent("MacOS")
+        let macOSFiles = (try? fm.contentsOfDirectory(atPath: macOSDir.path)) ?? []
+        if macOSFiles.contains("base_library.zip") ||
+           macOSFiles.contains(where: { $0.hasSuffix(".pkg") && $0.contains("python") }) {
+            return true
+        }
+        // Python.framework 内嵌
+        let frameworksDir = contentsDir.appendingPathComponent("Frameworks")
+        let frameworkNames = (try? fm.contentsOfDirectory(atPath: frameworksDir.path)) ?? []
+        if frameworkNames.contains(where: { $0.hasPrefix("Python") && $0.hasSuffix(".framework") }) {
+            return true
+        }
+        return resourceNames.contains(where: { $0.hasSuffix(".pyc") || $0 == "python3" })
+    }
+
+    private static func isGoWailsApp(contentsDir: URL, resourceNames: [String], frameworkNames: [String]) -> Bool {
+        let fm = FileManager.default
+        // Wails 特征：wails.json 或 frontend 目录下的 index.html
+        if resourceNames.contains("wails.json") { return true }
+        let macOSDir = contentsDir.appendingPathComponent("MacOS")
+        let macOSFiles = (try? fm.contentsOfDirectory(atPath: macOSDir.path)) ?? []
+        // Go 二进制通常无外部依赖，但 Wails 会有 WebKit 且含 wails 相关文件
+        if frameworkNames.contains(where: { $0.contains("WebKit") }) &&
+           (resourceNames.contains(where: { $0.contains("wails") }) ||
+            macOSFiles.contains(where: { $0.contains("wails") })) {
+            return true
+        }
+        return false
     }
 
     private static func isTauri(frameworkNames: [String], appURL: URL) -> Bool {
