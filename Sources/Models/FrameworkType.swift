@@ -13,6 +13,10 @@ enum FrameworkType: String, CaseIterable, Identifiable, Codable {
     case dotNet = ".NET/MAUI"
     case unity = "Unity"
     case unreal = "Unreal Engine"
+    case python = "Python"
+    case go = "Go/Wails"
+    case reactNative = "React Native"
+    case capacitor = "Capacitor"
     case unknown = "Unknown"
 
     var id: String { rawValue }
@@ -33,6 +37,10 @@ enum FrameworkType: String, CaseIterable, Identifiable, Codable {
         case .dotNet: return "square.stack.3d.up.fill"
         case .unity: return "gamecontroller.fill"
         case .unreal: return "film.fill"
+        case .python: return "chevron.left.forwardslash.chevron.right"
+        case .go: return "arrow.triangle.2.circlepath"
+        case .reactNative: return "iphone"
+        case .capacitor: return "bolt.circle.fill"
         case .unknown: return "questionmark.app"
         }
     }
