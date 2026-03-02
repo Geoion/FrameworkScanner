@@ -51,6 +51,23 @@
 
 /* Detail */
 "No embedded frameworks" = "无内嵌 Framework";
+"Embedded Frameworks" = "内嵌 Framework";
+"Code Signing" = "代码签名";
+"Status" = "状态";
+"Team ID" = "Team ID";
+"Authority" = "签名机构";
+"Notarized" = "已公证";
+"Not Signed" = "未签名";
+"Security Issues" = "安全漏洞";
+
+/* Charts */
+"Charts" = "图表";
+"Framework Distribution" = "框架分布";
+"Framework Share" = "框架占比";
+"App Count by Framework" = "各框架应用数量";
+"Disk Usage by Framework" = "各框架磁盘占用";
+"No data available" = "暂无数据";
+"Show Charts" = "显示图表";
 
 /* Export */
 "Export" = "导出";
