@@ -14,18 +14,23 @@ actor AppScanner {
         directories: [URL],
         homebrewAppPaths: Set<String> = [],
         systemAppDirs: Set<URL> = [],
+        recursiveScan: Bool = false,
+        maxDepth: Int = 2,
+        excludedPaths: Set<String> = [],
         onProgress: @escaping @Sendable (ScanProgress) -> Void
     ) async -> [AppInfo] {
-        let fm = FileManager.default
         var allAppURLs: [URL] = []
 
         for directory in directories {
-            guard let contents = try? fm.contentsOfDirectory(
-                at: directory,
-                includingPropertiesForKeys: [.isDirectoryKey],
-                options: [.skipsHiddenFiles]
-            ) else { continue }
-            allAppURLs.append(contentsOf: contents.filter { $0.pathExtension == "app" })
+            if isExcluded(directory, excludedPaths: excludedPaths) {
+                continue
+            }
+            allAppURLs.append(contentsOf: appBundles(
+                in: directory,
+                recursiveScan: recursiveScan,
+                maxDepth: maxDepth,
+                excludedPaths: excludedPaths
+            ))
         }
 
         // 去重（同一个 .app 可能通过多个目录被枚举到）
@@ -46,7 +51,7 @@ actor AppScanner {
                 let url = allAppURLs[index]
                 let realPath = url.resolvingSymlinksInPath().standardizedFileURL.path
                 let isHomebrew = homebrewAppPaths.contains(realPath)
-                let isSystem = systemAppDirs.contains(url.deletingLastPathComponent().standardizedFileURL)
+                let isSystem = isSystemApp(url, systemAppDirs: systemAppDirs)
                 index += 1
                 group.addTask {
                     await self.processApp(url: url, isFromHomebrew: isHomebrew, isSystemApp: isSystem, total: total, counter: counter, onProgress: onProgress)
@@ -61,7 +66,7 @@ actor AppScanner {
                     let url = allAppURLs[index]
                     let realPath = url.resolvingSymlinksInPath().standardizedFileURL.path
                     let isHomebrew = homebrewAppPaths.contains(realPath)
-                    let isSystem = systemAppDirs.contains(url.deletingLastPathComponent().standardizedFileURL)
+                    let isSystem = isSystemApp(url, systemAppDirs: systemAppDirs)
                     index += 1
                     group.addTask {
                         await self.processApp(url: url, isFromHomebrew: isHomebrew, isSystemApp: isSystem, total: total, counter: counter, onProgress: onProgress)
@@ -115,7 +120,8 @@ actor AppScanner {
             NSWorkspace.shared.icon(forFile: appURL.path)
         }
 
-        let frameworkType = FrameworkDetector.detect(at: appURL)
+        let frameworkTypes = FrameworkDetector.detectAll(at: appURL)
+        let frameworkType = frameworkTypes.first ?? .appKit
 
         let appSize = FileSizeCalculator.directorySize(at: appURL)
 
@@ -125,7 +131,7 @@ actor AppScanner {
         let architecture = ArchitectureDetector.detect(at: appURL)
 
         var electronDetail: ElectronDetail?
-        if frameworkType == .electron {
+        if frameworkTypes.contains(.electron) {
             electronDetail = ElectronAnalyzer.analyze(at: appURL)
         }
 
@@ -140,6 +146,7 @@ actor AppScanner {
             installDate: installDate,
             architecture: architecture,
             path: appURL,
+            detectedFrameworks: frameworkTypes,
             electronDetail: electronDetail,
             isFromHomebrew: isFromHomebrew,
             isSystemApp: isSystemApp,
@@ -147,10 +154,75 @@ actor AppScanner {
                 id: bundleID, name: name, bundleIdentifier: bundleID, version: version,
                 icon: icon, frameworkType: frameworkType, appSize: appSize,
                 installDate: installDate, architecture: architecture, path: appURL,
+                detectedFrameworks: frameworkTypes,
                 electronDetail: electronDetail, isFromHomebrew: isFromHomebrew, isSystemApp: isSystemApp
             ))
         )
         return appInfo
+    }
+
+    private func appBundles(
+        in directory: URL,
+        recursiveScan: Bool,
+        maxDepth: Int,
+        excludedPaths: Set<String>
+    ) -> [URL] {
+        let fm = FileManager.default
+
+        if !recursiveScan {
+            guard let contents = try? fm.contentsOfDirectory(
+                at: directory,
+                includingPropertiesForKeys: [.isDirectoryKey],
+                options: [.skipsHiddenFiles]
+            ) else { return [] }
+            return contents.filter { $0.pathExtension == "app" && !isExcluded($0, excludedPaths: excludedPaths) }
+        }
+
+        var apps: [URL] = []
+        let root = directory.standardizedFileURL
+        let rootDepth = root.pathComponents.count
+        guard let enumerator = fm.enumerator(
+            at: root,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [.skipsHiddenFiles, .skipsPackageDescendants],
+            errorHandler: nil
+        ) else { return [] }
+
+        for case let item as URL in enumerator {
+            let current = item.standardizedFileURL
+            if isExcluded(current, excludedPaths: excludedPaths) {
+                enumerator.skipDescendants()
+                continue
+            }
+
+            let depth = current.pathComponents.count - rootDepth
+            if depth > maxDepth {
+                enumerator.skipDescendants()
+                continue
+            }
+
+            if current.pathExtension == "app" {
+                apps.append(current)
+                enumerator.skipDescendants()
+            }
+        }
+
+        return apps
+    }
+
+    private func isSystemApp(_ appURL: URL, systemAppDirs: Set<URL>) -> Bool {
+        let appPath = appURL.standardizedFileURL.path
+        return systemAppDirs.contains { dir in
+            let root = dir.standardizedFileURL.path
+            return appPath.hasPrefix(root + "/")
+        }
+    }
+
+    private func isExcluded(_ url: URL, excludedPaths: Set<String>) -> Bool {
+        let path = url.standardizedFileURL.path
+        return excludedPaths.contains { excluded in
+            path == excluded || path.hasPrefix(excluded + "/")
+        }
     }
 }
 
