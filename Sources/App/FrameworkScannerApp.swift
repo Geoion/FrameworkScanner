@@ -15,7 +15,6 @@ struct FrameworkScannerApp: App {
         }
         .windowStyle(.titleBar)
         .defaultSize(width: 900, height: 650)
-
         WindowGroup(L("Charts"), id: "charts") {
             if #available(macOS 14.0, *) {
                 ChartsWindowView()
@@ -35,6 +34,7 @@ struct FrameworkScannerApp: App {
             SettingsView()
                 .id(appState.languageRefreshId)
                 .environmentObject(appState)
+                .environmentObject(viewModel)
         }
     }
 }
