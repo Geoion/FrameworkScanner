@@ -88,7 +88,7 @@ struct SecurityAnalyzer {
     private static let minSafeElectronMajor = 28
 
     static func analyze(app: AppInfo) -> [SecurityIssue] {
-        guard app.frameworkType == .electron,
+        guard app.detectedFrameworks.contains(.electron),
               let detail = app.electronDetail,
               let versionStr = detail.electronVersion else {
             return []
