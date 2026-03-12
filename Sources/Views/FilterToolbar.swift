@@ -115,6 +115,49 @@ struct FilterToolbar: View {
             }
             .menuStyle(.borderlessButton)
             .frame(width: 100)
+
+            Menu {
+                Toggle(L("Recursive Scan"), isOn: $viewModel.recursiveScanEnabled)
+
+                if viewModel.recursiveScanEnabled {
+                    Divider()
+                    Picker(L("Max Depth"), selection: $viewModel.maxScanDepth) {
+                        Text("2").tag(2)
+                        Text("3").tag(3)
+                        Text("4").tag(4)
+                        Text("5").tag(5)
+                    }
+                }
+
+                Divider()
+
+                Button {
+                    viewModel.addExcludedDirectory()
+                } label: {
+                    Label(L("Add Excluded Folder..."), systemImage: "folder.badge.minus")
+                }
+
+                if !viewModel.excludedDirectoryPaths.isEmpty {
+                    Divider()
+
+                    ForEach(viewModel.excludedDirectoryPaths, id: \.self) { path in
+                        Button {
+                            viewModel.removeExcludedDirectory(path)
+                        } label: {
+                            Label("\(L("Remove")): \(URL(fileURLWithPath: path).lastPathComponent)", systemImage: "minus.circle")
+                        }
+                    }
+
+                    Button(L("Clear Exclusions"), role: .destructive) {
+                        viewModel.clearExcludedDirectories()
+                    }
+                }
+            } label: {
+                Label(L("Scope"), systemImage: "slider.horizontal.3")
+                    .font(.caption)
+            }
+            .menuStyle(.borderlessButton)
+            .frame(width: 120)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
