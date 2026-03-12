@@ -20,6 +20,31 @@ final class ScannerViewModel: ObservableObject {
     @Published var selectedSources: Set<AppSource> = []
     @Published var sortOption: SortOption = .name
     @Published var sortDirection: SortDirection = .ascending
+    @Published var recursiveScanEnabled = ScanScopeDefaults.recursiveScanEnabled {
+        didSet {
+            persistScanScopePreferences()
+        }
+    }
+    @Published var maxScanDepth = ScanScopeDefaults.maxScanDepth {
+        didSet {
+            let clamped = max(2, min(5, maxScanDepth))
+            if maxScanDepth != clamped {
+                maxScanDepth = clamped
+                return
+            }
+            persistScanScopePreferences()
+        }
+    }
+    @Published var excludedDirectoryPaths: [String] = ScanScopeDefaults.excludedDirectoryPaths {
+        didSet {
+            let normalized = normalizeExcludedPaths(excludedDirectoryPaths)
+            if excludedDirectoryPaths != normalized {
+                excludedDirectoryPaths = normalized
+                return
+            }
+            persistScanScopePreferences()
+        }
+    }
 
     @Published var needsPermission = false
     @Published var permissionError = false
@@ -39,6 +64,8 @@ final class ScannerViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     init() {
+        loadScanScopePreferences()
+
         Publishers.CombineLatest4(
             $allApps,
             $searchText.debounce(for: .milliseconds(150), scheduler: RunLoop.main),
@@ -116,6 +143,45 @@ final class ScannerViewModel: ObservableObject {
         try? json.write(to: url, atomically: true, encoding: .utf8)
     }
 
+    func exportAsMarkdownReport() {
+        let panel = NSSavePanel()
+        panel.title = L("Export as Report")
+        panel.nameFieldStringValue = "FrameworkScanner-Report.md"
+        panel.allowedContentTypes = [.plainText]
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        let report = ExportService.generateMarkdownReport(from: filteredApps)
+        try? report.write(to: url, atomically: true, encoding: .utf8)
+    }
+
+    func addExcludedDirectory() {
+        let panel = NSOpenPanel()
+        panel.title = L("Select folder to exclude")
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.allowsMultipleSelection = false
+        panel.canCreateDirectories = false
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        let path = url.standardizedFileURL.path
+        if !excludedDirectoryPaths.contains(path) {
+            excludedDirectoryPaths.append(path)
+            excludedDirectoryPaths.sort()
+        }
+    }
+
+    func removeExcludedDirectory(_ path: String) {
+        excludedDirectoryPaths.removeAll { $0 == path }
+    }
+
+    func clearExcludedDirectories() {
+        excludedDirectoryPaths.removeAll()
+    }
+
+    func resetScanScopeToDefaults() {
+        recursiveScanEnabled = ScanScopeDefaults.recursiveScanEnabled
+        maxScanDepth = ScanScopeDefaults.maxScanDepth
+        excludedDirectoryPaths = ScanScopeDefaults.excludedDirectoryPaths
+    }
+
     // MARK: - Private Methods
 
     private func recomputeFiltered(
@@ -134,7 +200,9 @@ final class ScannerViewModel: ObservableObject {
         }
 
         if !frameworks.isEmpty {
-            result = result.filter { frameworks.contains($0.frameworkType) }
+            result = result.filter { app in
+                app.detectedFrameworks.contains(where: frameworks.contains)
+            }
         }
 
         if !sources.isEmpty {
@@ -170,7 +238,10 @@ final class ScannerViewModel: ObservableObject {
         let results = await scanner.scan(
             directories: plan.dirs,
             homebrewAppPaths: plan.homebrewAppPaths,
-            systemAppDirs: plan.systemAppDirs
+            systemAppDirs: plan.systemAppDirs,
+            recursiveScan: recursiveScanEnabled,
+            maxDepth: max(1, maxScanDepth),
+            excludedPaths: Set(excludedDirectoryPaths.map { URL(fileURLWithPath: $0).standardizedFileURL.path })
         ) { [weak self] progress in
             Task { @MainActor in
                 guard let self else { return }
@@ -259,6 +330,48 @@ final class ScannerViewModel: ObservableObject {
 
         return paths
     }
+
+    private func loadScanScopePreferences() {
+        let defaults = UserDefaults.standard
+
+        if defaults.object(forKey: StorageKeys.recursiveScanEnabled) != nil {
+            recursiveScanEnabled = defaults.bool(forKey: StorageKeys.recursiveScanEnabled)
+        }
+
+        if defaults.object(forKey: StorageKeys.maxScanDepth) != nil {
+            maxScanDepth = defaults.integer(forKey: StorageKeys.maxScanDepth)
+        }
+
+        if let stored = defaults.array(forKey: StorageKeys.excludedDirectoryPaths) as? [String] {
+            excludedDirectoryPaths = stored
+        }
+    }
+
+    private func persistScanScopePreferences() {
+        let defaults = UserDefaults.standard
+        defaults.set(recursiveScanEnabled, forKey: StorageKeys.recursiveScanEnabled)
+        defaults.set(maxScanDepth, forKey: StorageKeys.maxScanDepth)
+        defaults.set(excludedDirectoryPaths, forKey: StorageKeys.excludedDirectoryPaths)
+    }
+
+    private func normalizeExcludedPaths(_ paths: [String]) -> [String] {
+        Array(
+            Set(paths.map { URL(fileURLWithPath: $0).standardizedFileURL.path })
+        )
+        .sorted()
+    }
+}
+
+private enum ScanScopeDefaults {
+    static let recursiveScanEnabled = false
+    static let maxScanDepth = 2
+    static let excludedDirectoryPaths: [String] = []
+}
+
+private enum StorageKeys {
+    static let recursiveScanEnabled = "scanScope.recursiveScanEnabled"
+    static let maxScanDepth = "scanScope.maxScanDepth"
+    static let excludedDirectoryPaths = "scanScope.excludedDirectoryPaths"
 }
 
 // MARK: - Scan Plan
@@ -285,7 +398,7 @@ struct ScanStats {
 
         for app in apps {
             counts[app.frameworkType, default: 0] += 1
-            if app.frameworkType == .electron {
+            if app.detectedFrameworks.contains(.electron) {
                 electronSize += app.appSize
             }
         }
