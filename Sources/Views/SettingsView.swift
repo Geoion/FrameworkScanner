@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject private var appState: AppState
+    @EnvironmentObject private var viewModel: ScannerViewModel
 
     var body: some View {
         Form {
@@ -33,10 +34,71 @@ struct SettingsView: View {
             }
 
             Section {
+                Toggle(L("Recursive Scan"), isOn: $viewModel.recursiveScanEnabled)
+
+                Picker(L("Max Depth"), selection: $viewModel.maxScanDepth) {
+                    Text("2").tag(2)
+                    Text("3").tag(3)
+                    Text("4").tag(4)
+                    Text("5").tag(5)
+                }
+                .disabled(!viewModel.recursiveScanEnabled)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(L("Excluded Folders"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    if viewModel.excludedDirectoryPaths.isEmpty {
+                        Text(L("No excluded folders"))
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach(viewModel.excludedDirectoryPaths, id: \.self) { path in
+                            HStack(spacing: 8) {
+                                Text(path)
+                                    .font(.caption2)
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
+                                Spacer()
+                                Button(L("Remove")) {
+                                    viewModel.removeExcludedDirectory(path)
+                                }
+                                .buttonStyle(.borderless)
+                                .font(.caption2)
+                            }
+                        }
+                    }
+                }
+                .padding(.vertical, 4)
+
+                HStack(spacing: 8) {
+                    Button(L("Add Excluded Folder...")) {
+                        viewModel.addExcludedDirectory()
+                    }
+                    Button(L("Clear Exclusions")) {
+                        viewModel.clearExcludedDirectories()
+                    }
+                    .disabled(viewModel.excludedDirectoryPaths.isEmpty)
+                    Spacer()
+                    Button(L("Reset Scope Defaults")) {
+                        viewModel.resetScanScopeToDefaults()
+                    }
+                    .disabled(
+                        !viewModel.recursiveScanEnabled &&
+                        viewModel.maxScanDepth == 2 &&
+                        viewModel.excludedDirectoryPaths.isEmpty
+                    )
+                }
+            } header: {
+                Text(L("Scope"))
+            }
+
+            Section {
                 HStack {
                     Text(L("Version"))
                     Spacer()
-                    Text("1.0.0")
+                    Text(appState.currentAppVersion)
                         .foregroundStyle(.secondary)
                 }
                 HStack {
@@ -60,6 +122,9 @@ struct SettingsView: View {
                     }
                     .buttonStyle(.link)
                 }
+                Text(L("Updates are handled in the App Store."))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             } header: {
                 Text(L("About"))
             }
