@@ -14,6 +14,7 @@ struct AppInfo: Identifiable, Equatable {
     let version: String
     let icon: NSImage
     let frameworkType: FrameworkType
+    let detectedFrameworks: [FrameworkType]
     let appSize: Int64
     let installDate: Date
     let architecture: Architecture
@@ -34,6 +35,7 @@ struct AppInfo: Identifiable, Equatable {
         id: String, name: String, bundleIdentifier: String, version: String,
         icon: NSImage, frameworkType: FrameworkType, appSize: Int64,
         installDate: Date, architecture: Architecture, path: URL,
+        detectedFrameworks: [FrameworkType] = [],
         electronDetail: ElectronDetail? = nil,
         isFromHomebrew: Bool = false,
         isSystemApp: Bool = false,
@@ -44,6 +46,7 @@ struct AppInfo: Identifiable, Equatable {
         self.bundleIdentifier = bundleIdentifier
         self.version = version
         self.frameworkType = frameworkType
+        self.detectedFrameworks = detectedFrameworks.isEmpty ? [frameworkType] : detectedFrameworks
         self.appSize = appSize
         self.installDate = installDate
         self.architecture = architecture
