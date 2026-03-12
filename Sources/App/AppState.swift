@@ -99,6 +99,16 @@ final class AppState: ObservableObject {
     func localized(_ key: String) -> String {
         bundle.localizedString(forKey: key, value: nil, table: nil)
     }
+
+    var currentAppVersion: String {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
+
+        if let version, let build, !build.isEmpty, build != version {
+            return "\(version) (\(build))"
+        }
+        return version ?? "1.0.0"
+    }
 }
 
 func L(_ key: String) -> String {
