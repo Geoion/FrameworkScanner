@@ -79,7 +79,12 @@ struct AppRowView: View {
 
             Spacer()
 
-            FrameworkTag(type: app.frameworkType, electronDetail: app.electronDetail, securityIssues: app.securityIssues)
+            FrameworkTag(
+                type: app.frameworkType,
+                electronDetail: app.electronDetail,
+                securityIssues: app.securityIssues,
+                additionalCount: max(0, app.detectedFrameworks.count - 1)
+            )
 
             VStack(alignment: .trailing, spacing: 2) {
                 Text(app.formattedSize)
@@ -179,6 +184,8 @@ struct AppRowView: View {
 
     private var appInfoPanel: some View {
         VStack(alignment: .leading, spacing: 0) {
+            detectedFrameworksSection
+
             // 安全问题
             if !app.securityIssues.isEmpty {
                 securitySection
@@ -192,6 +199,24 @@ struct AppRowView: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
+    }
+
+    @ViewBuilder
+    private var detectedFrameworksSection: some View {
+        DetailSectionHeader(title: L("Detected Frameworks"))
+
+        if app.detectedFrameworks.isEmpty {
+            Text("–")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        } else {
+            Text(app.detectedFrameworks.map(\.displayName).joined(separator: ", "))
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+
+        Divider().padding(.vertical, 6)
     }
 
     @ViewBuilder
@@ -404,6 +429,7 @@ struct FrameworkTag: View {
     let type: FrameworkType
     let electronDetail: ElectronDetail?
     var securityIssues: [SecurityIssue] = []
+    var additionalCount: Int = 0
 
     var body: some View {
         VStack(alignment: .trailing, spacing: 2) {
@@ -418,6 +444,11 @@ struct FrameworkTag: View {
                 Text(type.displayName)
                     .font(.caption)
                     .fontWeight(.medium)
+                if additionalCount > 0 {
+                    Text("+\(additionalCount)")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                }
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 3)
