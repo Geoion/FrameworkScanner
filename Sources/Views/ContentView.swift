@@ -47,6 +47,11 @@ struct ContentView: View {
                     } label: {
                         Label(L("Export as JSON"), systemImage: "curlybraces")
                     }
+                    Button {
+                        viewModel.exportAsMarkdownReport()
+                    } label: {
+                        Label(L("Export as Report"), systemImage: "doc.plaintext")
+                    }
                 } label: {
                     Label(L("Export"), systemImage: "square.and.arrow.up")
                 }
