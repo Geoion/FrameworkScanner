@@ -3,6 +3,10 @@ import Foundation
 struct FrameworkDetector {
 
     static func detect(at appURL: URL) -> FrameworkType {
+        detectAll(at: appURL).first ?? .appKit
+    }
+
+    static func detectAll(at appURL: URL) -> [FrameworkType] {
         let frameworksDir = appURL
             .appendingPathComponent("Contents")
             .appendingPathComponent("Frameworks")
@@ -15,26 +19,33 @@ struct FrameworkDetector {
 
         let frameworkNames = (try? fm.contentsOfDirectory(atPath: frameworksDir.path)) ?? []
         let resourceNames = (try? fm.contentsOfDirectory(atPath: resourcesDir.path)) ?? []
+        var detected: [FrameworkType] = []
+
+        func append(_ framework: FrameworkType) {
+            if !detected.contains(framework) {
+                detected.append(framework)
+            }
+        }
 
         // Electron: Electron Framework.framework
         if frameworkNames.contains(where: { $0.hasPrefix("Electron") && $0.hasSuffix(".framework") }) {
-            return .electron
+            append(.electron)
         }
 
         // CEF: Chromium Embedded Framework
         if frameworkNames.contains("Chromium Embedded Framework.framework") {
-            return .cef
+            append(.cef)
         }
 
         // Flutter: FlutterMacOS.framework
         if frameworkNames.contains("FlutterMacOS.framework") ||
            frameworkNames.contains("App.framework") && frameworkNames.contains("FlutterMacOS.framework") {
-            return .flutter
+            append(.flutter)
         }
 
         // Qt: QtCore, QtWidgets, etc.
         if frameworkNames.contains(where: { $0.hasPrefix("Qt") && $0.hasSuffix(".framework") }) {
-            return .qt
+            append(.qt)
         }
 
         // Unity: UnityPlayer or Data/Managed
@@ -42,68 +53,72 @@ struct FrameworkDetector {
         let managedDir = dataDir.appendingPathComponent("Managed")
         if frameworkNames.contains(where: { $0.contains("UnityPlayer") }) ||
            fm.fileExists(atPath: managedDir.path) {
-            return .unity
+            append(.unity)
         }
 
         // Unreal Engine
         if frameworkNames.contains(where: { $0.contains("UE4") || $0.contains("UnrealEngine") }) {
-            return .unreal
+            append(.unreal)
         }
 
         // .NET / MAUI / Mono
         if frameworkNames.contains(where: { $0.contains("Mono") || $0.contains("dotnet") }) ||
            resourceNames.contains(where: { $0.hasSuffix(".dll") }) {
-            return .dotNet
+            append(.dotNet)
         }
 
         // Java/JVM: .jar files or libjvm
         if resourceNames.contains(where: { $0.hasSuffix(".jar") }) ||
            frameworkNames.contains(where: { $0.contains("libjvm") }) ||
            hasJavaIndicators(contentsDir: contentsDir) {
-            return .javaJVM
+            append(.javaJVM)
         }
 
         // React Native macOS: RCTBridge or ReactCommon framework
         if frameworkNames.contains(where: { $0.contains("React") || $0.contains("RCT") }) ||
            resourceNames.contains(where: { $0 == "main.jsbundle" || $0.hasSuffix(".jsbundle") }) {
-            return .reactNative
+            append(.reactNative)
         }
 
         // Capacitor: capacitor.config.json or @capacitor in resources
         if resourceNames.contains("capacitor.config.json") ||
            resourceNames.contains(where: { $0.contains("capacitor") }) {
-            return .capacitor
+            append(.capacitor)
         }
 
         // Python (PyInstaller): _MEIPASS marker or pyinstaller bootloader
         if isPythonApp(contentsDir: contentsDir, resourceNames: resourceNames) {
-            return .python
+            append(.python)
         }
 
         // Go / Wails: wails.json or specific Go runtime indicators
         if isGoWailsApp(contentsDir: contentsDir, resourceNames: resourceNames, frameworkNames: frameworkNames) {
-            return .go
+            append(.go)
         }
 
         // Tauri: small app with WebKit usage but no Electron
         if isTauri(frameworkNames: frameworkNames, appURL: appURL) {
-            return .tauri
+            append(.tauri)
         }
 
         // Catalyst / UIKit
         if let plist = readInfoPlist(at: appURL) {
             if plist["LSRequiresIPhoneOS"] as? Bool == true ||
                plist["UIRequiredDeviceCapabilities"] != nil {
-                return .catalyst
+                append(.catalyst)
             }
         }
 
         // SwiftUI detection via linked frameworks in binary
         if hasSwiftUIReference(at: appURL) {
-            return .swiftUI
+            append(.swiftUI)
         }
 
-        return .appKit
+        if detected.isEmpty {
+            detected.append(.appKit)
+        }
+
+        return detected
     }
 
     // MARK: - Helpers
