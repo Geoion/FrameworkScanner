@@ -203,12 +203,11 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					AE19F1E3BB2A940C3D946B51 = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = WSGQ32FL62;
 					};
 				};
 			};
 			buildConfigurationList = 96BDD44CEF2E421CDA0DAEBD /* Build configuration list for PBXProject "FrameworkScanner" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -225,6 +224,7 @@
 			mainGroup = E223DE6D825A7D7A4DB59B17;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 2437FF9035C150E4FA528B88 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -352,7 +352,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WSGQ32FL62;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -378,11 +378,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Resources/FrameworkScanner.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Resources/FrameworkScanner.Debug.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -430,7 +430,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WSGQ32FL62;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
