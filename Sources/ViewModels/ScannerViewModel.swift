@@ -57,6 +57,19 @@ final class ScannerViewModel: ObservableObject {
         ScanStats(apps: allApps)
     }
 
+    var securityDataStatus: SecurityDataStatus {
+        SecurityAnalyzer.securityDataStatus()
+    }
+
+    var securityReleaseReminderMessage: String? {
+        let status = securityDataStatus
+        guard status.isStale else { return nil }
+        return String(
+            format: L("Security rules are %d days old. Please review CVEs and publish a new app version."),
+            status.daysSinceReview
+        )
+    }
+
     // MARK: - Private
 
     private let scanner = AppScanner()
