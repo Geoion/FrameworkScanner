@@ -107,7 +107,7 @@ final class AppState: ObservableObject {
         if let version, let build, !build.isEmpty, build != version {
             return "\(version) (\(build))"
         }
-        return version ?? "1.0.0"
+        return version ?? "–"
     }
 }
 
