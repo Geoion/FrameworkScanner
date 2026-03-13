@@ -95,6 +95,44 @@ struct SettingsView: View {
             }
 
             Section {
+                let status = viewModel.securityDataStatus
+
+                HStack {
+                    Text(L("Rules Version"))
+                    Spacer()
+                    Text(status.version)
+                        .foregroundStyle(.secondary)
+                }
+                HStack {
+                    Text(L("Last Reviewed"))
+                    Spacer()
+                    Text(status.lastReviewedAt)
+                        .foregroundStyle(.secondary)
+                }
+                HStack {
+                    Text(L("Data Age"))
+                    Spacer()
+                    Text("\(status.daysSinceReview) \(L("days"))")
+                        .foregroundStyle(.secondary)
+                }
+                HStack {
+                    Text(L("Reminder Threshold"))
+                    Spacer()
+                    Text("\(status.reminderThresholdDays) \(L("days"))")
+                        .foregroundStyle(.secondary)
+                }
+
+                if let reminder = viewModel.securityReleaseReminderMessage {
+                    Text(reminder)
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } header: {
+                Text(L("Security Intelligence"))
+            }
+
+            Section {
                 HStack {
                     Text(L("Version"))
                     Spacer()
@@ -130,8 +168,8 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .scrollDisabled(true)
-        .frame(width: 450, height: 420)
+        .scrollDisabled(false)
+        .frame(width: 500, height: 560)
     }
 
     private func localizedModeName(_ mode: AppearanceMode) -> String {
