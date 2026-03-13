@@ -15,6 +15,7 @@ struct SecurityIssue: Identifiable, Equatable {
     let severity: Severity
     let summary: String
     let affectedVersionRange: String
+    let recordedAt: String
 
     var severityColor: String {
         switch severity {
@@ -26,9 +27,29 @@ struct SecurityIssue: Identifiable, Equatable {
     }
 }
 
+struct SecurityDataStatus: Equatable {
+    let version: String
+    let lastReviewedAt: String
+    let daysSinceReview: Int
+    let reminderThresholdDays: Int
+
+    var isStale: Bool {
+        daysSinceReview >= reminderThresholdDays
+    }
+
+    var daysUntilReminder: Int {
+        max(0, reminderThresholdDays - daysSinceReview)
+    }
+}
+
 // MARK: - Security Analyzer
 
 struct SecurityAnalyzer {
+    // SECURITY_RULES_METADATA_START
+    private static let securityRulesVersion = "2026.03.13"
+    private static let securityRulesLastReviewedAt = "2026-03-13"
+    private static let securityRulesReminderThresholdDays = 30
+    // SECURITY_RULES_METADATA_END
 
     // Electron 已知 CVE 列表（版本号 < minSafeVersion 的均受影响）
     // 数据来源：https://www.electronjs.org/docs/latest/tutorial/security
@@ -38,54 +59,75 @@ struct SecurityAnalyzer {
             cveId: "CVE-2023-44402",
             severity: .high,
             summary: "Context Isolation bypass via window.open",
-            affectedVersionRange: "< 27.1.0, < 26.6.0, < 25.9.7"
+            affectedVersionRange: "< 27.1.0, < 26.6.0, < 25.9.7",
+            recordedAt: "2026-03-13"
         ),
         SecurityIssue(
             id: "CVE-2023-39956",
             cveId: "CVE-2023-39956",
             severity: .high,
             summary: "Renderer process sandbox escape",
-            affectedVersionRange: "< 26.2.1, < 25.8.1, < 24.8.3"
+            affectedVersionRange: "< 26.2.1, < 25.8.1, < 24.8.3",
+            recordedAt: "2026-03-13"
         ),
         SecurityIssue(
             id: "CVE-2023-29198",
             cveId: "CVE-2023-29198",
             severity: .critical,
             summary: "Out-of-bounds write in V8 (Chromium)",
-            affectedVersionRange: "< 25.0.0"
+            affectedVersionRange: "< 25.0.0",
+            recordedAt: "2026-03-13"
         ),
         SecurityIssue(
             id: "CVE-2022-29247",
             cveId: "CVE-2022-29247",
             severity: .high,
             summary: "Protocol handler allows loading arbitrary code",
-            affectedVersionRange: "< 19.0.0, < 18.3.1, < 17.4.1"
+            affectedVersionRange: "< 19.0.0, < 18.3.1, < 17.4.1",
+            recordedAt: "2026-03-13"
         ),
         SecurityIssue(
             id: "CVE-2022-21718",
             cveId: "CVE-2022-21718",
             severity: .medium,
             summary: "Arbitrary file read via custom protocol handler",
-            affectedVersionRange: "< 17.0.0, < 16.0.6, < 15.3.5"
+            affectedVersionRange: "< 17.0.0, < 16.0.6, < 15.3.5",
+            recordedAt: "2026-03-13"
         ),
         SecurityIssue(
             id: "CVE-2021-39184",
             cveId: "CVE-2021-39184",
             severity: .high,
             summary: "Context Isolation bypass via window.open",
-            affectedVersionRange: "< 15.0.0, < 14.1.0, < 13.3.0"
+            affectedVersionRange: "< 15.0.0, < 14.1.0, < 13.3.0",
+            recordedAt: "2026-03-13"
         ),
         SecurityIssue(
             id: "CVE-2020-15215",
             cveId: "CVE-2020-15215",
             severity: .critical,
             summary: "Remote code execution via nativeWindowOpen",
-            affectedVersionRange: "< 11.0.0, < 10.1.2, < 9.3.3"
+            affectedVersionRange: "< 11.0.0, < 10.1.2, < 9.3.3",
+            recordedAt: "2026-03-13"
         ),
     ]
 
     // 已知安全的最低 Electron 主版本
     private static let minSafeElectronMajor = 28
+
+    static func securityDataStatus(referenceDate: Date = Date()) -> SecurityDataStatus {
+        let parsed = parseDate(securityRulesLastReviewedAt) ?? .distantPast
+        let start = Calendar.current.startOfDay(for: parsed)
+        let now = Calendar.current.startOfDay(for: referenceDate)
+        let age = max(0, Calendar.current.dateComponents([.day], from: start, to: now).day ?? 0)
+
+        return SecurityDataStatus(
+            version: securityRulesVersion,
+            lastReviewedAt: securityRulesLastReviewedAt,
+            daysSinceReview: age,
+            reminderThresholdDays: securityRulesReminderThresholdDays
+        )
+    }
 
     static func analyze(app: AppInfo) -> [SecurityIssue] {
         guard app.detectedFrameworks.contains(.electron),
@@ -137,5 +179,13 @@ struct SecurityAnalyzer {
             }
         }
         return false
+    }
+
+    private static func parseDate(_ value: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.date(from: value)
     }
 }
