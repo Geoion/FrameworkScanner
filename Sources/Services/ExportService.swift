@@ -76,6 +76,7 @@ enum ExportService {
         let total = apps.count
         let riskyApps = apps.filter { !$0.securityIssues.isEmpty }
         let multiFrameworkApps = apps.filter { $0.detectedFrameworks.count > 1 }
+        let securityStatus = SecurityAnalyzer.securityDataStatus()
 
         var frameworkCounts: [FrameworkType: Int] = [:]
         for app in apps {
@@ -94,6 +95,9 @@ enum ExportService {
         lines.append("- Total Apps: \(total)")
         lines.append("- Apps With Security Findings: \(riskyApps.count)")
         lines.append("- Multi-Framework Apps: \(multiFrameworkApps.count)")
+        lines.append("- Security Rules Version: \(securityStatus.version)")
+        lines.append("- Security Rules Last Reviewed: \(securityStatus.lastReviewedAt)")
+        lines.append("- Security Rules Age: \(securityStatus.daysSinceReview) days")
         lines.append("")
 
         lines.append("## Framework Distribution (Primary)")
