@@ -73,6 +73,29 @@
 "Export" = "导出";
 "Export as CSV" = "导出为 CSV";
 "Export as JSON" = "导出为 JSON";
+"Export as Report" = "导出报告";
+
+/* Scope */
+"Scope" = "扫描范围";
+"Recursive Scan" = "递归扫描";
+"Max Depth" = "最大深度";
+"Add Excluded Folder..." = "添加排除文件夹...";
+"Select folder to exclude" = "选择要排除的文件夹";
+"Clear Exclusions" = "清空排除项";
+"Remove" = "移除";
+"Excluded Folders" = "排除文件夹";
+"No excluded folders" = "暂无排除文件夹";
+"Reset Scope Defaults" = "恢复默认扫描范围";
+
+/* Detection */
+"Detected Frameworks" = "检测到的框架";
+"Security Intelligence" = "安全情报";
+"Rules Version" = "规则版本";
+"Last Reviewed" = "最近维护";
+"Data Age" = "数据时长";
+"Reminder Threshold" = "提醒阈值";
+"days" = "天";
+"Security rules are %d days old. Please review CVEs and publish a new app version." = "安全规则已 %d 天未维护，请复核 CVE 并发布新版本。";
 
 /* Settings */
 "Appearance" = "外观";
@@ -84,3 +107,16 @@
 "Version" = "版本";
 "Author" = "作者";
 "Feedback" = "反馈";
+"Check for Updates" = "检查更新";
+"Checking..." = "检查中...";
+"Already Up to Date" = "已经是最新版本";
+"FrameworkScanner is up to date." = "FrameworkScanner 已是最新版本。";
+"Update Available" = "发现新版本";
+"Current Version" = "当前版本";
+"New Version" = "新版本";
+"Release Notes" = "更新说明";
+"Later" = "稍后";
+"Download" = "下载更新";
+"Latest Version" = "最新版本";
+"OK" = "确定";
+"Updates are handled in the App Store." = "更新请通过 App Store 完成。";
