@@ -8,7 +8,7 @@ settings:
   base:
     SWIFT_VERSION: "5.9"
     MACOSX_DEPLOYMENT_TARGET: "13.0"
-    DEVELOPMENT_TEAM: ""
+    DEVELOPMENT_TEAM: "WSGQ32FL62"
 targets:
   FrameworkScanner:
     type: application
@@ -20,19 +20,24 @@ targets:
           - Info.plist
           - "Info 2.plist"
           - FrameworkScanner.entitlements
+          - FrameworkScanner.Debug.entitlements
           - "FrameworkScanner 2.entitlements"
         buildPhase: resources
     info:
       path: Resources/Info.plist
-    entitlements:
-      path: Resources/FrameworkScanner.entitlements
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.eskiyin.FrameworkScanner
         PRODUCT_NAME: FrameworkScanner
         INFOPLIST_FILE: Resources/Info.plist
-        CODE_SIGN_ENTITLEMENTS: Resources/FrameworkScanner.entitlements
-        ENABLE_HARDENED_RUNTIME: true
         CODE_SIGN_IDENTITY: "-"
-        DEPLOYMENT_POSTPROCESSING: YES
         SKIP_INSTALL: NO
+      configs:
+        Debug:
+          CODE_SIGN_ENTITLEMENTS: Resources/FrameworkScanner.Debug.entitlements
+          ENABLE_HARDENED_RUNTIME: NO
+          DEPLOYMENT_POSTPROCESSING: NO
+        Release:
+          CODE_SIGN_ENTITLEMENTS: Resources/FrameworkScanner.entitlements
+          ENABLE_HARDENED_RUNTIME: YES
+          DEPLOYMENT_POSTPROCESSING: YES
