@@ -17,6 +17,10 @@ struct ContentView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 StatsBarView()
                     .fixedSize(horizontal: false, vertical: true)
+                if let reminder = viewModel.securityReleaseReminderMessage {
+                    SecurityReminderBanner(message: reminder)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
                 Divider()
                 TableHeaderView()
                     .fixedSize(horizontal: false, vertical: true)
@@ -72,6 +76,24 @@ struct ContentView: View {
         } message: {
             Text(L("FrameworkScanner needs access to the Applications folder to scan installed apps. Please grant access to continue."))
         }
+    }
+}
+
+struct SecurityReminderBanner: View {
+    let message: String
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundStyle(.orange)
+            Text(message)
+                .font(.caption)
+                .foregroundStyle(.primary)
+            Spacer()
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(Color.orange.opacity(0.08))
     }
 }
 
