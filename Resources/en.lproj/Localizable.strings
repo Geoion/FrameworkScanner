@@ -73,6 +73,29 @@
 "Export" = "Export";
 "Export as CSV" = "Export as CSV";
 "Export as JSON" = "Export as JSON";
+"Export as Report" = "Export as Report";
+
+/* Scope */
+"Scope" = "Scope";
+"Recursive Scan" = "Recursive Scan";
+"Max Depth" = "Max Depth";
+"Add Excluded Folder..." = "Add Excluded Folder...";
+"Select folder to exclude" = "Select folder to exclude";
+"Clear Exclusions" = "Clear Exclusions";
+"Remove" = "Remove";
+"Excluded Folders" = "Excluded Folders";
+"No excluded folders" = "No excluded folders";
+"Reset Scope Defaults" = "Reset Scope Defaults";
+
+/* Detection */
+"Detected Frameworks" = "Detected Frameworks";
+"Security Intelligence" = "Security Intelligence";
+"Rules Version" = "Rules Version";
+"Last Reviewed" = "Last Reviewed";
+"Data Age" = "Data Age";
+"Reminder Threshold" = "Reminder Threshold";
+"days" = "days";
+"Security rules are %d days old. Please review CVEs and publish a new app version." = "Security rules are %d days old. Please review CVEs and publish a new app version.";
 
 /* Settings */
 "Appearance" = "Appearance";
@@ -84,3 +107,16 @@
 "Version" = "Version";
 "Author" = "Author";
 "Feedback" = "Feedback";
+"Check for Updates" = "Check for Updates";
+"Checking..." = "Checking...";
+"Already Up to Date" = "Already Up to Date";
+"FrameworkScanner is up to date." = "FrameworkScanner is up to date.";
+"Update Available" = "Update Available";
+"Current Version" = "Current Version";
+"New Version" = "New Version";
+"Release Notes" = "Release Notes";
+"Later" = "Later";
+"Download" = "Download";
+"Latest Version" = "Latest Version";
+"OK" = "OK";
+"Updates are handled in the App Store." = "Updates are handled in the App Store.";
