@@ -135,6 +135,8 @@ actor AppScanner {
             electronDetail = ElectronAnalyzer.analyze(at: appURL)
         }
 
+        let frameworkVersions = FrameworkVersionExtractor.extract(at: appURL, for: frameworkTypes)
+
         let appInfo = AppInfo(
             id: bundleID,
             name: name,
@@ -148,6 +150,7 @@ actor AppScanner {
             path: appURL,
             detectedFrameworks: frameworkTypes,
             electronDetail: electronDetail,
+            frameworkVersions: frameworkVersions,
             isFromHomebrew: isFromHomebrew,
             isSystemApp: isSystemApp,
             securityIssues: SecurityAnalyzer.analyze(app: AppInfo(
@@ -155,7 +158,8 @@ actor AppScanner {
                 icon: icon, frameworkType: frameworkType, appSize: appSize,
                 installDate: installDate, architecture: architecture, path: appURL,
                 detectedFrameworks: frameworkTypes,
-                electronDetail: electronDetail, isFromHomebrew: isFromHomebrew, isSystemApp: isSystemApp
+                electronDetail: electronDetail, frameworkVersions: frameworkVersions,
+                isFromHomebrew: isFromHomebrew, isSystemApp: isSystemApp
             ))
         )
         return appInfo
