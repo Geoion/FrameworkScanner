@@ -20,6 +20,7 @@ struct AppInfo: Identifiable, Equatable {
     let architecture: Architecture
     let path: URL
     var electronDetail: ElectronDetail?
+    let frameworkVersions: [String: String]
     let isFromHomebrew: Bool
     let isSystemApp: Bool
     let securityIssues: [SecurityIssue]
@@ -37,6 +38,7 @@ struct AppInfo: Identifiable, Equatable {
         installDate: Date, architecture: Architecture, path: URL,
         detectedFrameworks: [FrameworkType] = [],
         electronDetail: ElectronDetail? = nil,
+        frameworkVersions: [String: String] = [:],
         isFromHomebrew: Bool = false,
         isSystemApp: Bool = false,
         securityIssues: [SecurityIssue] = []
@@ -52,6 +54,7 @@ struct AppInfo: Identifiable, Equatable {
         self.architecture = architecture
         self.path = path
         self.electronDetail = electronDetail
+        self.frameworkVersions = frameworkVersions
         self.isFromHomebrew = isFromHomebrew
         self.isSystemApp = isSystemApp
         self.securityIssues = securityIssues
