@@ -1,0 +1,11 @@
+[
+  {
+    "id": "CVE-2024-0450",
+    "cveId": "CVE-2024-0450",
+    "framework": "python",
+    "severity": "medium",
+    "summary": "zipfile module vulnerable to zip-bomb via quoted-overlap attack; extracting crafted archives may consume excessive disk space or memory",
+    "affectedVersionRange": "< 3.9.19, < 3.10.14, < 3.11.8, < 3.12.2",
+    "recordedAt": "2024-03-19"
+  }
+]
