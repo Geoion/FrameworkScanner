@@ -1,0 +1,11 @@
+[
+  {
+    "id": "CVE-2024-39936",
+    "cveId": "CVE-2024-39936",
+    "framework": "qt",
+    "severity": "high",
+    "summary": "Qt Network HTTP/2 server push handling allows man-in-the-middle attackers to inject responses or read cleartext data due to missing validation of push promise headers",
+    "affectedVersionRange": "< 6.7.2",
+    "recordedAt": "2024-07-04"
+  }
+]
