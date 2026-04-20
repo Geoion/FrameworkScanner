@@ -65,6 +65,23 @@ open FrameworkScanner.xcodeproj
 5. Use the search bar and filter menu to narrow results
 6. Use the **Export** button to save results as CSV or JSON
 
+## Security Rules Maintenance
+
+Electron CVEs are intentionally hardcoded. The app stores rule metadata (`version`, `last reviewed date`, `reminder threshold`) and shows a reminder when rules are stale.
+
+Use this script to update the metadata in `Sources/Services/SecurityAnalyzer.swift`:
+
+```bash
+scripts/update_security_rules.sh
+```
+
+Common examples:
+
+```bash
+scripts/update_security_rules.sh --date 2026-03-15 --version 2026.03.15 --stamp-cves
+scripts/update_security_rules.sh --threshold 21
+```
+
 ## Changelog
 
 ### v1.1.1
