@@ -2,8 +2,8 @@ import Foundation
 
 // MARK: - Security Issue
 
-struct SecurityIssue: Identifiable, Equatable {
-    enum Severity: String, Equatable {
+struct SecurityIssue: Identifiable, Equatable, Codable {
+    enum Severity: String, Equatable, Codable {
         case critical = "critical"
         case high = "high"
         case medium = "medium"
@@ -16,6 +16,8 @@ struct SecurityIssue: Identifiable, Equatable {
     let summary: String
     let affectedVersionRange: String
     let recordedAt: String
+    /// 受影响的框架标识，与 FrameworkVersionExtractor 的 key 一致（"electron"/"qt"/"python"/"cef"）
+    let framework: String
 
     var severityColor: String {
         switch severity {
@@ -24,6 +26,22 @@ struct SecurityIssue: Identifiable, Equatable {
         case .medium: return "yellow"
         case .low: return "blue"
         }
+    }
+
+    // 旧 JSON 文件中没有 framework 字段，解码时默认为 "electron"
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id                   = try c.decode(String.self,   forKey: .id)
+        cveId                = try c.decode(String.self,   forKey: .cveId)
+        severity             = try c.decode(Severity.self, forKey: .severity)
+        summary              = try c.decode(String.self,   forKey: .summary)
+        affectedVersionRange = try c.decode(String.self,   forKey: .affectedVersionRange)
+        recordedAt           = try c.decode(String.self,   forKey: .recordedAt)
+        framework            = try c.decodeIfPresent(String.self, forKey: .framework) ?? "electron"
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id, cveId, severity, summary, affectedVersionRange, recordedAt, framework
     }
 }
 
@@ -46,74 +64,35 @@ struct SecurityDataStatus: Equatable {
 
 struct SecurityAnalyzer {
     // SECURITY_RULES_METADATA_START
-    private static let securityRulesVersion = "2026.03.13"
-    private static let securityRulesLastReviewedAt = "2026-03-13"
+    private static let securityRulesVersion = "2026.03.27"
+    private static let securityRulesLastReviewedAt = "2026-03-27"
     private static let securityRulesReminderThresholdDays = 30
     // SECURITY_RULES_METADATA_END
 
-    // Electron 已知 CVE 列表（版本号 < minSafeVersion 的均受影响）
-    // 数据来源：https://www.electronjs.org/docs/latest/tutorial/security
-    private static let electronVulnerabilities: [SecurityIssue] = [
-        SecurityIssue(
-            id: "CVE-2023-44402",
-            cveId: "CVE-2023-44402",
-            severity: .high,
-            summary: "Context Isolation bypass via window.open",
-            affectedVersionRange: "< 27.1.0, < 26.6.0, < 25.9.7",
-            recordedAt: "2026-03-13"
-        ),
-        SecurityIssue(
-            id: "CVE-2023-39956",
-            cveId: "CVE-2023-39956",
-            severity: .high,
-            summary: "Renderer process sandbox escape",
-            affectedVersionRange: "< 26.2.1, < 25.8.1, < 24.8.3",
-            recordedAt: "2026-03-13"
-        ),
-        SecurityIssue(
-            id: "CVE-2023-29198",
-            cveId: "CVE-2023-29198",
-            severity: .critical,
-            summary: "Out-of-bounds write in V8 (Chromium)",
-            affectedVersionRange: "< 25.0.0",
-            recordedAt: "2026-03-13"
-        ),
-        SecurityIssue(
-            id: "CVE-2022-29247",
-            cveId: "CVE-2022-29247",
-            severity: .high,
-            summary: "Protocol handler allows loading arbitrary code",
-            affectedVersionRange: "< 19.0.0, < 18.3.1, < 17.4.1",
-            recordedAt: "2026-03-13"
-        ),
-        SecurityIssue(
-            id: "CVE-2022-21718",
-            cveId: "CVE-2022-21718",
-            severity: .medium,
-            summary: "Arbitrary file read via custom protocol handler",
-            affectedVersionRange: "< 17.0.0, < 16.0.6, < 15.3.5",
-            recordedAt: "2026-03-13"
-        ),
-        SecurityIssue(
-            id: "CVE-2021-39184",
-            cveId: "CVE-2021-39184",
-            severity: .high,
-            summary: "Context Isolation bypass via window.open",
-            affectedVersionRange: "< 15.0.0, < 14.1.0, < 13.3.0",
-            recordedAt: "2026-03-13"
-        ),
-        SecurityIssue(
-            id: "CVE-2020-15215",
-            cveId: "CVE-2020-15215",
-            severity: .critical,
-            summary: "Remote code execution via nativeWindowOpen",
-            affectedVersionRange: "< 11.0.0, < 10.1.2, < 9.3.3",
-            recordedAt: "2026-03-13"
-        ),
-    ]
+    // 已知安全的最低 Electron 主版本（Electron 39+ 目前无已知未修复 CVE）
+    private static let minSafeElectronMajor = 39
 
-    // 已知安全的最低 Electron 主版本
-    private static let minSafeElectronMajor = 28
+    // 从 Resources/CVE/*.json 加载所有框架的 CVE 数据
+    private static let allVulnerabilities: [SecurityIssue] = loadAllCVEs()
+
+    private static func loadAllCVEs() -> [SecurityIssue] {
+        guard let cveDir = Bundle.main.resourceURL?.appendingPathComponent("CVE") else {
+            return []
+        }
+        let jsonFiles = (try? FileManager.default.contentsOfDirectory(
+            at: cveDir,
+            includingPropertiesForKeys: nil
+        ).filter { $0.pathExtension == "json" }) ?? []
+
+        let decoder = JSONDecoder()
+        return jsonFiles.sorted { $0.lastPathComponent < $1.lastPathComponent }.flatMap { url -> [SecurityIssue] in
+            guard let data = try? Data(contentsOf: url),
+                  let issues = try? decoder.decode([SecurityIssue].self, from: data) else {
+                return []
+            }
+            return issues
+        }
+    }
 
     static func securityDataStatus(referenceDate: Date = Date()) -> SecurityDataStatus {
         let parsed = parseDate(securityRulesLastReviewedAt) ?? .distantPast
@@ -130,26 +109,58 @@ struct SecurityAnalyzer {
     }
 
     static func analyze(app: AppInfo) -> [SecurityIssue] {
-        guard app.detectedFrameworks.contains(.electron),
-              let detail = app.electronDetail,
-              let versionStr = detail.electronVersion else {
-            return []
-        }
-
-        let components = versionStr.split(separator: ".").compactMap { Int($0) }
-        guard let major = components.first else { return [] }
-
         var issues: [SecurityIssue] = []
 
-        // 检查是否低于最低安全主版本
-        if major < minSafeElectronMajor {
-            let matchedIssues = electronVulnerabilities.filter { issue in
-                isVersionAffected(major: major, minor: components.count > 1 ? components[1] : 0, patch: components.count > 2 ? components[2] : 0, rangeDescription: issue.affectedVersionRange)
+        // Electron
+        if app.detectedFrameworks.contains(.electron),
+           let versionStr = app.electronDetail?.electronVersion {
+            let comps = versionStr.split(separator: ".").compactMap { Int($0) }
+            if let major = comps.first, major < minSafeElectronMajor {
+                issues.append(contentsOf: matchedIssues(
+                    framework: "electron",
+                    major: major,
+                    minor: comps.count > 1 ? comps[1] : 0,
+                    patch: comps.count > 2 ? comps[2] : 0
+                ))
             }
-            issues.append(contentsOf: matchedIssues)
+        }
+
+        // Qt
+        if app.detectedFrameworks.contains(.qt),
+           let versionStr = app.frameworkVersions["qt"] {
+            let comps = versionStr.split(separator: ".").compactMap { Int($0) }
+            if let major = comps.first {
+                issues.append(contentsOf: matchedIssues(
+                    framework: "qt",
+                    major: major,
+                    minor: comps.count > 1 ? comps[1] : 0,
+                    patch: comps.count > 2 ? comps[2] : 0
+                ))
+            }
+        }
+
+        // Python
+        if app.detectedFrameworks.contains(.python),
+           let versionStr = app.frameworkVersions["python"] {
+            let comps = versionStr.split(separator: ".").compactMap { Int($0) }
+            if let major = comps.first {
+                issues.append(contentsOf: matchedIssues(
+                    framework: "python",
+                    major: major,
+                    minor: comps.count > 1 ? comps[1] : 0,
+                    patch: comps.count > 2 ? comps[2] : 0
+                ))
+            }
         }
 
         return issues
+    }
+
+    private static func matchedIssues(framework: String, major: Int, minor: Int, patch: Int) -> [SecurityIssue] {
+        allVulnerabilities.filter { issue in
+            issue.framework == framework &&
+            isVersionAffected(major: major, minor: minor, patch: patch, rangeDescription: issue.affectedVersionRange)
+        }
     }
 
     static func highestSeverity(issues: [SecurityIssue]) -> SecurityIssue.Severity? {
