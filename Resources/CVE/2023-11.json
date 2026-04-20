@@ -1,0 +1,11 @@
+[
+  {
+    "id": "CVE-2023-51714",
+    "cveId": "CVE-2023-51714",
+    "framework": "qt",
+    "severity": "high",
+    "summary": "Integer overflow in Qt Network HTTP/2 implementation allows remote servers to cause heap corruption or denial of service via a crafted HTTP/2 response",
+    "affectedVersionRange": "< 5.15.17, < 6.5.4, < 6.6.2",
+    "recordedAt": "2023-11-10"
+  }
+]
