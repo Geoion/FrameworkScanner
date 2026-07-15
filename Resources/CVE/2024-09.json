@@ -6,7 +6,7 @@
     "severity": "high",
     "summary": "ASAR Integrity bypass via content modification (Windows only, requires embeddedAsarIntegrityValidation + onlyLoadAppFromAsar fuses)",
     "affectedVersionRange": "< 30.0.5",
-    "recordedAt": "2024-09-26"
+    "recordedAt": "2026-07-15"
   },
   {
     "id": "CVE-2024-46993",
@@ -15,7 +15,7 @@
     "severity": "medium",
     "summary": "Heap buffer overflow in NativeImage::CreateFromPath / CreateFromBuffer",
     "affectedVersionRange": "< 28.3.2, < 29.3.3, < 30.0.3",
-    "recordedAt": "2024-09-26"
+    "recordedAt": "2026-07-15"
   },
   {
     "id": "CVE-2024-6232",
@@ -24,7 +24,7 @@
     "severity": "high",
     "summary": "tarfile module Regular Expression Denial of Service (ReDoS) via crafted PAX header strings, causing excessive CPU usage",
     "affectedVersionRange": "< 3.9.20, < 3.10.15, < 3.11.10, < 3.12.7",
-    "recordedAt": "2024-09-03"
+    "recordedAt": "2026-07-15"
   },
   {
     "id": "CVE-2024-8088",
@@ -33,6 +33,6 @@
     "severity": "medium",
     "summary": "zipimport module infinite loop when processing ZIP files containing entries with excessive null bytes in the name field",
     "affectedVersionRange": "< 3.9.20, < 3.10.15, < 3.11.10, < 3.12.5",
-    "recordedAt": "2024-09-03"
+    "recordedAt": "2026-07-15"
   }
 ]
