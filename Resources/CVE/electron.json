@@ -1,0 +1,47 @@
+[
+  {
+    "id": "CVE-2026-34780",
+    "cveId": "CVE-2026-34780",
+    "framework": "electron",
+    "severity": "high",
+    "summary": "Context Isolation bypass via contextBridge VideoFrame transfer; attacker in main world can access isolated world Node.js APIs",
+    "affectedVersionRange": "< 39.8.0, < 40.7.0, < 41.0.0",
+    "recordedAt": "2026-07-15"
+  },
+  {
+    "id": "CVE-2026-34769",
+    "cveId": "CVE-2026-34769",
+    "framework": "electron",
+    "severity": "high",
+    "summary": "Renderer command-line switch injection via undocumented commandLineSwitches webPreference",
+    "affectedVersionRange": "< 38.8.6, < 39.8.0, < 40.7.0, < 41.0.0",
+    "recordedAt": "2026-07-15"
+  },
+  {
+    "id": "CVE-2026-34774",
+    "cveId": "CVE-2026-34774",
+    "framework": "electron",
+    "severity": "high",
+    "summary": "Use-after-free in offscreen child window paint callback when parent WebContents is destroyed before child",
+    "affectedVersionRange": "< 39.8.1, < 40.7.0, < 41.0.0",
+    "recordedAt": "2026-07-15"
+  },
+  {
+    "id": "CVE-2026-34771",
+    "cveId": "CVE-2026-34771",
+    "framework": "electron",
+    "severity": "high",
+    "summary": "Use-after-free in fullscreen, pointer-lock, or keyboard-lock permission request callbacks",
+    "affectedVersionRange": "< 38.8.6, < 39.8.0, < 40.7.0, < 41.0.0",
+    "recordedAt": "2026-07-15"
+  },
+  {
+    "id": "CVE-2026-34770",
+    "cveId": "CVE-2026-34770",
+    "framework": "electron",
+    "severity": "high",
+    "summary": "Use-after-free in powerMonitor module after native object is garbage-collected",
+    "affectedVersionRange": "< 38.8.6, < 39.8.1, < 40.8.0, < 41.0.0",
+    "recordedAt": "2026-07-15"
+  }
+]
