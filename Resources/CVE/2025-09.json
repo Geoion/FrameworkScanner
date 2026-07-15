@@ -5,6 +5,6 @@
     "severity": "medium",
     "summary": "ASAR Integrity bypass via resource modification (requires embeddedAsarIntegrityValidation + onlyLoadAppFromAsar fuses)",
     "affectedVersionRange": "< 35.7.5, < 36.8.1, < 37.3.1",
-    "recordedAt": "2025-09-04"
+    "recordedAt": "2026-07-15"
   }
 ]
