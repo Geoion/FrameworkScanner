@@ -70,7 +70,7 @@ struct SecurityAnalyzer {
     // SECURITY_RULES_METADATA_END
 
     // 已知安全的最低 Electron 主版本（Electron 39+ 目前无已知未修复 CVE）
-    private static let minSafeElectronMajor = 42
+    private static let minSafeElectronMajor = 41
 
     // 从 Resources/CVE/*.json 加载所有框架的 CVE 数据
     private static let allVulnerabilities: [SecurityIssue] = loadAllCVEs()
