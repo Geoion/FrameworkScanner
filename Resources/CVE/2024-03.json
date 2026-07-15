@@ -6,6 +6,6 @@
     "severity": "medium",
     "summary": "zipfile module vulnerable to zip-bomb via quoted-overlap attack; extracting crafted archives may consume excessive disk space or memory",
     "affectedVersionRange": "< 3.9.19, < 3.10.14, < 3.11.8, < 3.12.2",
-    "recordedAt": "2024-03-19"
+    "recordedAt": "2026-07-15"
   }
 ]
