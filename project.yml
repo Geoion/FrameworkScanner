@@ -25,19 +25,28 @@ targets:
         buildPhase: resources
     info:
       path: Resources/Info.plist
+      properties:
+        CFBundleShortVersionString: "1.1.3"
+        CFBundleVersion: "3"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.eskiyin.FrameworkScanner
         PRODUCT_NAME: FrameworkScanner
         INFOPLIST_FILE: Resources/Info.plist
+        MARKETING_VERSION: "1.1.3"
+        CURRENT_PROJECT_VERSION: "3"
         CODE_SIGN_IDENTITY: "-"
         SKIP_INSTALL: NO
       configs:
         Debug:
+          CODE_SIGN_IDENTITY: "-"
           CODE_SIGN_ENTITLEMENTS: Resources/FrameworkScanner.Debug.entitlements
           ENABLE_HARDENED_RUNTIME: NO
           DEPLOYMENT_POSTPROCESSING: NO
         Release:
+          CODE_SIGN_IDENTITY: "Developer ID Application: Eski Yin (WSGQ32FL62)"
+          CODE_SIGN_STYLE: Manual
           CODE_SIGN_ENTITLEMENTS: Resources/FrameworkScanner.entitlements
           ENABLE_HARDENED_RUNTIME: YES
           DEPLOYMENT_POSTPROCESSING: YES
+          OTHER_CODE_SIGN_FLAGS: "--timestamp"

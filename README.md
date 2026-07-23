@@ -34,16 +34,7 @@ brew tap Geoion/tap
 brew install --cask frameworkscanner
 ```
 
-After installation, if macOS Gatekeeper blocks the app on first launch, run:
-
-```bash
-xattr -cr /Applications/FrameworkScanner.app
-```
-
-> **Why is this needed?**
-> macOS automatically adds a `com.apple.quarantine` extended attribute to files downloaded from the internet. This causes Gatekeeper to block unsigned or ad-hoc signed apps. The command above removes that attribute so the app can launch normally.
-
-Then open the app as usual.
+Or download the signed DMG from [Releases](https://github.com/Geoion/FrameworkScanner/releases).
 
 ### Build from Source
 
@@ -83,6 +74,12 @@ scripts/update_security_rules.sh --threshold 21
 ```
 
 ## Changelog
+
+### v1.1.3
+
+- **CVE refresh**: Updated Electron / Qt / Python / CEF vulnerability lists (2026-07); `minSafeElectronMajor` raised to 41
+- **Security tooling**: Fixed `compute_min_safe_electron_major` for prerelease version ranges, added unit tests
+- **Distribution**: Developer ID signed + notarized release builds (Gatekeeper-ready; no `xattr` workaround)
 
 ### v1.1.1
 
