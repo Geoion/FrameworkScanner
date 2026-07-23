@@ -1,0 +1,11 @@
+[
+  {
+    "id": "CVE-2026-11645",
+    "cveId": "CVE-2026-11645",
+    "framework": "cef",
+    "severity": "high",
+    "summary": "Out-of-bounds read/write in Chromium V8 JavaScript engine allowing sandboxed code execution via crafted HTML page",
+    "affectedVersionRange": "< 149.0.7827",
+    "recordedAt": "2026-07-15"
+  }
+]

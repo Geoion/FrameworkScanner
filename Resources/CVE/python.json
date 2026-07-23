@@ -1,0 +1,56 @@
+[
+  {
+    "id": "CVE-2026-6100",
+    "cveId": "CVE-2026-6100",
+    "framework": "python",
+    "severity": "critical",
+    "summary": "Use-after-free in lzma.LZMADecompressor, bz2.BZ2Decompressor, and gzip.GzipFile when reused after MemoryError",
+    "affectedVersionRange": "< 3.9.25, < 3.10.20, < 3.11.15, < 3.12.13, < 3.13.14, < 3.14.6, < 3.15.0",
+    "recordedAt": "2026-07-15"
+  },
+  {
+    "id": "CVE-2026-7210",
+    "cveId": "CVE-2026-7210",
+    "framework": "python",
+    "severity": "high",
+    "summary": "Insufficient entropy for Expat hash-flooding protection in xml.parsers.expat and xml.etree.ElementTree",
+    "affectedVersionRange": "< 3.9.25, < 3.10.20, < 3.11.15, < 3.12.13, < 3.13.14, < 3.14.6, < 3.15.0",
+    "recordedAt": "2026-07-15"
+  },
+  {
+    "id": "CVE-2026-9669",
+    "cveId": "CVE-2026-9669",
+    "framework": "python",
+    "severity": "high",
+    "summary": "Out-of-bounds stack write in bz2.BZ2Decompressor when reused after a decompression error",
+    "affectedVersionRange": "< 3.9.25, < 3.10.20, < 3.11.15, < 3.12.13, < 3.13.14, < 3.14.6, < 3.15.0",
+    "recordedAt": "2026-07-15"
+  },
+  {
+    "id": "CVE-2026-3087",
+    "cveId": "CVE-2026-3087",
+    "framework": "python",
+    "severity": "high",
+    "summary": "shutil.unpack_archive() extracts ZIP archives with absolute Windows paths outside target directory",
+    "affectedVersionRange": "< 3.9.25, < 3.10.20, < 3.11.15, < 3.12.13, < 3.13.14, < 3.14.5, < 3.15.0",
+    "recordedAt": "2026-07-15"
+  },
+  {
+    "id": "CVE-2026-4786",
+    "cveId": "CVE-2026-4786",
+    "framework": "python",
+    "severity": "high",
+    "summary": "Incomplete mitigation of CVE-2026-4519 allows command injection via %action in webbrowser.open()",
+    "affectedVersionRange": "< 3.9.25, < 3.10.20, < 3.11.15, < 3.12.13, < 3.13.14, < 3.14.6, < 3.15.0",
+    "recordedAt": "2026-07-15"
+  },
+  {
+    "id": "CVE-2026-15308",
+    "cveId": "CVE-2026-15308",
+    "framework": "python",
+    "severity": "high",
+    "summary": "CPU denial-of-service in incremental html.parser.HTMLParser via repeated unterminated markup declarations",
+    "affectedVersionRange": "< 3.15.0",
+    "recordedAt": "2026-07-15"
+  }
+]
