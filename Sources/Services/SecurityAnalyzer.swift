@@ -64,8 +64,8 @@ struct SecurityDataStatus: Equatable {
 
 struct SecurityAnalyzer {
     // SECURITY_RULES_METADATA_START
-    private static let securityRulesVersion = "2026.03.27"
-    private static let securityRulesLastReviewedAt = "2026-03-27"
+    private static let securityRulesVersion = "2026.07.15"
+    private static let securityRulesLastReviewedAt = "2026-07-15"
     private static let securityRulesReminderThresholdDays = 30
     // SECURITY_RULES_METADATA_END
 

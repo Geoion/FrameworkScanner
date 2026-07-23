@@ -6,6 +6,6 @@
     "severity": "high",
     "summary": "Integer overflow in Qt Network HTTP/2 implementation allows remote servers to cause heap corruption or denial of service via a crafted HTTP/2 response",
     "affectedVersionRange": "< 5.15.17, < 6.5.4, < 6.6.2",
-    "recordedAt": "2023-11-10"
+    "recordedAt": "2026-07-15"
   }
 ]

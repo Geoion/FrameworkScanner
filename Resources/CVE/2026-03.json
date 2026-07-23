@@ -5,7 +5,7 @@
     "severity": "high",
     "summary": "Context Isolation bypass via window.open",
     "affectedVersionRange": "< 27.1.0, < 26.6.0, < 25.9.7",
-    "recordedAt": "2026-03-13"
+    "recordedAt": "2026-07-15"
   },
   {
     "id": "CVE-2023-39956",
@@ -13,7 +13,7 @@
     "severity": "high",
     "summary": "Renderer process sandbox escape",
     "affectedVersionRange": "< 26.2.1, < 25.8.1, < 24.8.3",
-    "recordedAt": "2026-03-13"
+    "recordedAt": "2026-07-15"
   },
   {
     "id": "CVE-2023-29198",
@@ -21,7 +21,7 @@
     "severity": "critical",
     "summary": "Out-of-bounds write in V8 (Chromium)",
     "affectedVersionRange": "< 25.0.0",
-    "recordedAt": "2026-03-13"
+    "recordedAt": "2026-07-15"
   },
   {
     "id": "CVE-2022-29247",
@@ -29,7 +29,7 @@
     "severity": "high",
     "summary": "Protocol handler allows loading arbitrary code",
     "affectedVersionRange": "< 19.0.0, < 18.3.1, < 17.4.1",
-    "recordedAt": "2026-03-13"
+    "recordedAt": "2026-07-15"
   },
   {
     "id": "CVE-2022-21718",
@@ -37,7 +37,7 @@
     "severity": "medium",
     "summary": "Arbitrary file read via custom protocol handler",
     "affectedVersionRange": "< 17.0.0, < 16.0.6, < 15.3.5",
-    "recordedAt": "2026-03-13"
+    "recordedAt": "2026-07-15"
   },
   {
     "id": "CVE-2021-39184",
@@ -45,7 +45,7 @@
     "severity": "high",
     "summary": "Context Isolation bypass via window.open",
     "affectedVersionRange": "< 15.0.0, < 14.1.0, < 13.3.0",
-    "recordedAt": "2026-03-13"
+    "recordedAt": "2026-07-15"
   },
   {
     "id": "CVE-2020-15215",
@@ -53,6 +53,6 @@
     "severity": "critical",
     "summary": "Remote code execution via nativeWindowOpen",
     "affectedVersionRange": "< 11.0.0, < 10.1.2, < 9.3.3",
-    "recordedAt": "2026-03-13"
+    "recordedAt": "2026-07-15"
   }
 ]
